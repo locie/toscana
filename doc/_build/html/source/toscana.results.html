@@ -1,0 +1,752 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="toscana.solar_simulation package" href="toscana.solar_simulation.html" /><link rel="prev" title="toscana.data_pre_processing package" href="toscana.data_pre_processing.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>toscana.results package - toscana 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">toscana 0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">toscana 0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="toscana.data_post_processing.html">toscana.data_post_processing package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toscana.data_pre_processing.html">toscana.data_pre_processing package</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">toscana.results package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toscana.solar_simulation.html">toscana.solar_simulation package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toscana.utils.html">toscana.utils package</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="toscana-results-package">
+<h1>toscana.results package<a class="headerlink" href="#toscana-results-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-toscana.results.results_vizualisation">
+<span id="toscana-results-results-vizualisation-module"></span><h2>toscana.results.results_vizualisation module<a class="headerlink" href="#module-toscana.results.results_vizualisation" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.display_SEBE_raster">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">display_SEBE_raster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_raster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rectangle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">average</span> <span class="pre">\nannual</span> <span class="pre">irradiation</span> <span class="pre">on</span> <span class="pre">surfaces&quot;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.display_SEBE_raster" title="Link to this definition">#</a></dt>
+<dd><p>Display in a figure the raster of the merge SEBE raster with a Red Yellow Blue colorscale.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>path_raster<span class="classifier">pathlib.Path</span></dt><dd><p>path of the raster to display, made for the merge raster with SEBE results (path_merge_SEBE_raster obtained in <cite>merge_SEBE_raster</cite> or path_clip_raster obtained in <cite>clip_raster</cite>)</p>
+</dd>
+<dt>rectangle<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the borders (recommended to set to False if the raster is a raster coming from <cite>clip_raster function</cite>), by default False</p>
+</dd>
+<dt>bool_title_SEBE<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the title, by default False</p>
+</dd>
+<dt>title_SEBE<span class="classifier">str, optional</span></dt><dd><p>title of the figure, by default f”Map of the municipality’s average</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>annual irradiation on surfaces”</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.display_distribution">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">display_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_buildings_zonal_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_johnsonsu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution_irradiation.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution</span> <span class="pre">of</span> <span class="pre">average</span> <span class="pre">annual</span> <span class="pre">rooftop</span> <span class="pre">irradiation'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.display_distribution" title="Link to this definition">#</a></dt>
+<dd><p>Display in a figure the histogram of a feature with values included in a shapefile (in the column named <code class="docutils literal notranslate"><span class="pre">column_name</span></code>), with optionally the Johnson’s SU fitted distribution (default : True).</p>
+<p>It is made to display the average annual irradiation received per building rooftop.
+The values are first stored in a csv file, then histogram and the Johnson’s SU fit are calculated. Then, the histogram is displayed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_buildings_zonal_stats</strong> (<em>pathlib.Path</em>) – path of the shapefile containing the data (zonal statistics for example) to display in a histogram (path_buildings_buffer_zonal_stat_post_process obtained in <cite>_post_process_buffer_zonal_stat</cite> for example)</p></li>
+<li><p><strong>column_name</strong> (<em>str</em>) – name of the column in the shapefile containing the values to display in the histogram (sol_mean for example)</p></li>
+<li><p><strong>path_final_output_folder</strong> (<em>pathlib.Path</em>) – path of the folder where to save the final results (define in main function)</p></li>
+<li><p><strong>bool_johnsonsu</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to display or not the Johnson’s SU fitted distribution, by default True</p></li>
+<li><p><strong>save_plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to save or not a figure with the distribution, by default True</p></li>
+<li><p><strong>name_plot</strong> (<em>str</em><em>, </em><em>optional</em>) – name of the file saved with the figure of the distribution, by default “Distribution_irradiation.png</p></li>
+<li><p><strong>bool_title_histo</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to display or not the title, by default False</p></li>
+<li><p><strong>title_histo</strong> (<em>str</em><em>, </em><em>optional</em>) – title of the figure, by default “Distribution of average annual rooftop irradiation”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.display_elevation_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">display_elevation_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_raster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rectangle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">elevation&quot;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.display_elevation_file" title="Link to this definition">#</a></dt>
+<dd><p>Display in a figure the raster of an elevation file (DSM, DEM for example) with a grey scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_raster</strong> (<em>pathlib.Path</em>) – path of the raster file to display (path_DSM obtained in <cite>create_DSM</cite> or path_DHM obtained in <cite>create_DHM</cite> for example)</p></li>
+<li><p><strong>rectangle</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to display or not the borders (recommended to set to False if the raster is a raster coming from <cite>clip_raster</cite> function), by default True</p></li>
+<li><p><strong>bool_title_elevation</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to display or not the title, by default False</p></li>
+<li><p><strong>title_elevation</strong> (<em>str</em><em>, </em><em>optional</em>) – title of the figure, by default “Map of the municipality’s elevation”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.display_histogram">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">display_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_bins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_johnsonsu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution_irradiation.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution</span> <span class="pre">of</span> <span class="pre">average</span> <span class="pre">annual</span> <span class="pre">rooftop</span> <span class="pre">irradiation'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.display_histogram" title="Link to this definition">#</a></dt>
+<dd><p>Display the histogram with optionally the Johnson’s SU distribution fitted to the distribution (default : True) (inputs coming from <cite>calculate_histogram_and_johnsonsu_fit</cite>)</p>
+<p>The figure is saved in an output folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>DataFrame</em>) – dataframe with irradiation values</p></li>
+<li><p><strong>nb_bins</strong> (<em>int</em>) – number of bins in the histogram</p></li>
+<li><p><strong>x</strong> (<em>list</em>) – list of the x value used to display the Johnson’s SU distribution</p></li>
+<li><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p></li>
+<li><p><strong>R2</strong> (<em>float</em>) – best R2 coefficient between classic (init) or floc=xmax (xmax) methods</p></li>
+<li><p><strong>path_final_output_folder</strong> (<em>pathlib.Path</em>) – path of the folder where to save the final results (define in main function)</p></li>
+<li><p><strong>bool_johnsonsu</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to display or not the Johnson’s SU fitted distribution, by default True</p></li>
+<li><p><strong>save_plot</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to save or not a figure with the distribution, by default True</p></li>
+<li><p><strong>name_plot</strong> (<em>str</em><em>, </em><em>optional</em>) – name of the file saved with the figure of the distribution, by default “Distribution_irradiation.png”</p></li>
+<li><p><strong>bool_title_histo</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to display or not the title, by default False</p></li>
+<li><p><strong>title_histo</strong> (<em>str</em><em>, </em><em>optional</em>) – title of the figure, by default “Distribution of average annual rooftop irradiation”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.display_results">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">display_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rectangle_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rectangle_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_johnsonsu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sol_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution_irradiation.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution</span> <span class="pre">of</span> <span class="pre">average</span> <span class="pre">\nannual</span> <span class="pre">rooftop</span> <span class="pre">irradiation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">elevation&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">average</span> <span class="pre">\nannual</span> <span class="pre">irradiation</span> <span class="pre">on</span> <span class="pre">surfaces&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">average</span> <span class="pre">annual</span> <span class="pre">rooftop\nirradiation</span> <span class="pre">per</span> <span class="pre">building&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Irradiation</span> <span class="pre">(kWh/m²)'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.display_results" title="Link to this definition">#</a></dt>
+<dd><p>Display the results : the resample DSM of the village, the raster with SEBE results, the shapefile with building footprints (with buffer) and their average annual irradiation on rooftops and the histogram with the average annual irradiation received by rooftops and the associated Johnson’s SU fitted distribution.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>path_raster_files<span class="classifier">pathlib.Path</span></dt><dd><p>path of the folder with temporary raster files (define in main function)</p>
+</dd>
+<dt>path_final_output_folder<span class="classifier">pathlib.Path</span></dt><dd><p>path of the folder with the final results (define in main function)</p>
+</dd>
+<dt>rectangle_elevation<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the borders of the elevation file (recommended to set to False if the raster is a raster coming from <cite>clip_raster</cite> function), by default True</p>
+</dd>
+<dt>rectangle_SEBE<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the borders of the merge SEBE raster (recommended to set to False if the raster is a raster coming from <cite>clip_raster</cite> function), by default False</p>
+</dd>
+<dt>bool_johnsonsu<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the Johnson’s SU fitted distribution, by default True</p>
+</dd>
+<dt>column_prefix<span class="classifier">str, optional</span></dt><dd><p>prefix of the column that have been chosen to create the statistics, by default ‘sol_’</p>
+</dd>
+<dt>statistics<span class="classifier">str, optional</span></dt><dd><p>name of the suffix of the column to display, by default ‘mean’</p>
+</dd>
+<dt>save_plot<span class="classifier">bool, optional</span></dt><dd><p>boolean value to save or not a figure with the distribution, by default True</p>
+</dd>
+<dt>name_plot<span class="classifier">str, optional</span></dt><dd><p>name of the file saved with the figure of the distribution, by default “Distribution_irradiation.png</p>
+</dd>
+<dt>bool_title_histo<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the title, by default False</p>
+</dd>
+<dt>title_histo<span class="classifier">str, optional</span></dt><dd><p>title of the figure, by default “Distribution of average annual rooftop irradiation”</p>
+</dd>
+<dt>bool_title_elevation<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the title, by default False</p>
+</dd>
+<dt>title_elevation<span class="classifier">str, optional</span></dt><dd><p>title of the figure, by default “Map of the municipality’s elevation”</p>
+</dd>
+<dt>bool_title_SEBE<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the title, by default False</p>
+</dd>
+<dt>title_SEBE<span class="classifier">_type_, optional</span></dt><dd><p>title of the figure, by default f”Map of the municipality’s average</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>annual irradiation on surfaces”</dt><dd><dl class="simple">
+<dt>bool_title_stats<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the title, by default False</p>
+</dd>
+<dt>title_stats<span class="classifier">_type_, optional</span></dt><dd><p>title of the figure, by default f”Map of the municipality’s average annual rooftop</p>
+</dd>
+</dl>
+</dd>
+<dt>irradiation per building”</dt><dd><dl class="simple">
+<dt>label_stats<span class="classifier">str, optional</span></dt><dd><p>lalbel of the colorbar, by default “Irradiation (kWh/m²)”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.display_zonal_stat_shapefile">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">display_zonal_stat_shapefile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">average</span> <span class="pre">annual</span> <span class="pre">rooftop\nirradiation</span> <span class="pre">per</span> <span class="pre">building&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Irradiation</span> <span class="pre">(kWh/m²)'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.display_zonal_stat_shapefile" title="Link to this definition">#</a></dt>
+<dd><p>Display in a figure a shapefile containing data (in the column <code class="docutils literal notranslate"><span class="pre">column_name</span></code>) to display with a Orange Red colorscale.</p>
+<blockquote>
+<div><p>It displays the value if the cursor is put on a shape (a building footprint for example).
+It is made to be used with a building footprints shapefile with average annual solar irradiation received by buildings (<code class="docutils literal notranslate"><span class="pre">column_name</span></code> sol_mean for example).</p>
+<dl class="simple">
+<dt>path_shapefile<span class="classifier">pathlib.Path</span></dt><dd><p>path of the shapefile with the data (zonal statistics) to display (path_buildings_buffer_zonal_stat_post_process obtained in <cite>_post_process_buffer_zonal_stat</cite> for example)</p>
+</dd>
+<dt>column_name<span class="classifier">str</span></dt><dd><p>name of the column in the shapefile containing the values to display</p>
+</dd>
+<dt>bool_title_stats<span class="classifier">bool, optional</span></dt><dd><p>boolean value to display or not the title, by default False</p>
+</dd>
+<dt>title_stats<span class="classifier">_type_, optional</span></dt><dd><p>title of the figure, by default f”Map of the municipality’s average annual rooftop</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>irradiation per building”</dt><dd><dl class="simple">
+<dt>label_stats<span class="classifier">str, optional</span></dt><dd><p>lalbel of the colorbar, by default “Irradiation (kWh/m²)”</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>AttributeError</dt><dd><p>name of the column (<code class="docutils literal notranslate"><span class="pre">column_name</span></code>) not found in the dataframe
+if <code class="docutils literal notranslate"><span class="pre">column_name</span></code> is too long (&gt;10 characters), the name was probably shortened before saving</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.results_vizualisation.generate_irradiation_csv_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.results_vizualisation.</span></span><span class="sig-name descname"><span class="pre">generate_irradiation_csv_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_buildings_zonal_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.results_vizualisation.generate_irradiation_csv_file" title="Link to this definition">#</a></dt>
+<dd><p>Generate a csv file with data coming from a shapefile contained in a column named <code class="docutils literal notranslate"><span class="pre">column_name</span></code>.</p>
+<p>The na value are filled with 0.
+It is made to generate a csv file with irradiation value (annual irradiation received by building footprints).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_buildings_zonal_stats</strong> (<em>pathlib.Path</em>) – path of the shapefile containing the data (zonal statistics for example) to export in a csv file (path_buildings_buffer_zonal_stat_post_process obtained in <cite>_post_process_buffer_zonal_stat</cite> for example)</p></li>
+<li><p><strong>column_name</strong> (<em>str</em>) – name of the column in the shapefile containing the values to export (sol_mean for example)</p></li>
+<li><p><strong>path_final_output_folder</strong> (<em>pathlib.Path</em>) – path of the folder where to save the final results (define in main function)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>path_irradiation_csv</strong> – path of the csv file with data exported from the shapefile</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AttributeError</strong> – name of the column (<code class="docutils literal notranslate"><span class="pre">column_name</span></code>) not found in the dataframe
+    if <code class="docutils literal notranslate"><span class="pre">column_name</span></code> is too long (&gt;10 characters), the name was probably shortened before saving</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-toscana.results.village_characteristics">
+<span id="toscana-results-village-characteristics-module"></span><h2>toscana.results.village_characteristics module<a class="headerlink" href="#module-toscana.results.village_characteristics" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.calculate_DFI">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">calculate_DFI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_average_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn_average_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.calculate_DFI" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the Diffuse Fraction Index (DFI).</p>
+<p>It is calculated using the meteorological files (average) used for the simulation.
+For each tile of the grid, the diffuse irradiance value per hour (for hours between 10:00 and 15:00 (10 a.m. and 3 p.m.)) is summed. The same is done for the global irradiance.
+For each tile of the grid, the ratio is obtained. The average ratio over all grid tiles is the DFI.
+The tile of the grid for which the meteorological file could not have been downloaded are not considered in the calculation of the DFI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_gpd</strong> (<em>GeoDataFrame</em>) – geopandas grid file</p></li>
+<li><p><strong>path_average_folder</strong> (<em>pathlib.Path</em>) – path of the folder where are saved the meteorological txt files (average txt files for example)</p></li>
+<li><p><strong>fn_average_files</strong> (<em>str</em>) – prefix name given to the txt files (average txt files for example)</p></li>
+<li><p><strong>path_csv_folder</strong> (<em>pathlib.Path</em>) – path of the folder with temporary csv files (define in main function)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>DFI</strong> – Diffuse Fraction Index (DFI) calculated for the municipality</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.calculate_SVI">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">calculate_SVI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_buildings_buffer_zonal_stat_post_process</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_shapefiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.calculate_SVI" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the Sky View Index (SVI).</p>
+<p>First, the centroid of buildings are obtained with their coordinates.
+It uses the centroid of buildings and horizon files from PVGIS API
+Then, these coordinates are used in the PVGIS API to obtain horizon files.
+The horizon files are then used to obtain the horizon profile at a specified place considering local surrounding topography and compared it with the horizon profile of a flat region (no surrounding topography).
+These horizon profiles are used to calculate the area of visible sky in both case. The ratio is obtained for all the considered buildings of the municipality.
+The average ratio over all the considered building is the SVI.
+If horizon profile is not available for one building, it moves to the next one, and the average is done only one the valid buildings.
+It saves in a csv file the SVI for each building or the error if the horizon profile was not available for this building.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_buildings_buffer_zonal_stat_post_process</strong> (<em>pathlib.Path</em>) – path of shapefile with building footprints for which the SVI is wanted (path_buildings_buffer_zonal_stat_post_process from _post_process_buffer_zonal_stat for example)</p></li>
+<li><p><strong>path_shapefiles</strong> (<em>pathlib.Path</em>) – path of the folder with temporary shapefiles (define in main function)</p></li>
+<li><p><strong>path_csv_folder</strong> (<em>pathlib.Path</em>) – path of the folder with temporary csv files (define in main function)</p></li>
+<li><p><strong>nb_tests</strong> (<em>int</em><em>, </em><em>optional</em>) – number of time to test downloading the horizon file if there is a connection problem, by default 5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>SVI</strong> – Sky View Index (SVI) calculated for the municipality</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.calculate_area_and_perimeter">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">calculate_area_and_perimeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_shapefile_perimeter_and_area</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.calculate_area_and_perimeter" title="Link to this definition">#</a></dt>
+<dd><p>Calcualte the area and perimeter of a shapefile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_shapefile</strong> (<em>pathlib.Path</em>) – path of the shapefile for which the perimeter and area are wanted</p></li>
+<li><p><strong>path_shapefile_perimeter_and_area</strong> (<em>pathlib.Path</em>) – path where to save the shapefile layer with perimeter and area values</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.calculate_village_characteristics">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">calculate_village_characteristics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_shapefiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_reproject_municipality_footprint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_DEM_resample</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'POPULATION'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.calculate_village_characteristics" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the area, the perimeter, the mean altitude of a municipality footprint, as well as the longitude and the latitude of the center of the village.</p>
+<p>Zonal statistics with the resample DEM and the municipality footprint is used to obtain the mean altitude.
+The centroid of the municipality footprint is obtained to then obtain the coordinates of this centroid.
+Get the number of inhabitants of the municipality in the column <code class="docutils literal notranslate"><span class="pre">population_column</span></code> (default : “POPULATION”)  and return a nan if not available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_shapefiles</strong> (<em>pathlib.Path</em>) – path of the folder with temporary shapefiles (define in main function)</p></li>
+<li><p><strong>path_csv_folder</strong> (<em>pathlib.Path</em>) – path of the folder with temporary csv files (define in main function)</p></li>
+<li><p><strong>path_reproject_municipality_footprint</strong> (<em>pathlib.Path</em>) – path of the municipality footprint shapefile reproject in the IGNF ETRS89LAEA reference system (for example path_reproject_municipality_footprint from reproject_municipality_footprint)</p></li>
+<li><p><strong>path_DEM_resample</strong> (<em>pathlib.Path</em>) – path of the resampled DEM raster file (for example path_resample_DEM obtained in resample_DEM)</p></li>
+<li><p><strong>population_column</strong> (<em>str</em><em>, </em><em>optional</em>) – name of the column with number of inhabitants of the studied municipality in the municipality footprint shapefile, by default “POPULATION”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>area</strong> (<em>float</em>) – area of the municipality footprint</p></li>
+<li><p><strong>perimeter</strong> (<em>float</em>) – perimeter of the municipality footprint</p></li>
+<li><p><strong>mean_altitude</strong> (<em>float</em>) – mean altitude value of the municipality footprint</p></li>
+<li><p><strong>latitude_center</strong> (<em>float</em>) – latitude of the center of the municipality</p></li>
+<li><p><strong>longitude_center</strong> (<em>float</em>) – longitude of the center of the municipality</p></li>
+<li><p><strong>population</strong> (<em>int</em>) – population of the municipality (informed by IGN)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.calculate_village_distribution_characteristics">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">calculate_village_distribution_characteristics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_shapefiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">village_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">village_INSEE_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">village_departement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">population_column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'POPULATION'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.calculate_village_distribution_characteristics" title="Link to this definition">#</a></dt>
+<dd><p>Calculate and gather in a dataframe the village characteristics and distribution characteristics.</p>
+<p>The village characteristics include geographical data of the village (area, perimeter, coordinates) with administratives information (population, department).
+<code class="docutils literal notranslate"><span class="pre">departement</span></code> and <code class="docutils literal notranslate"><span class="pre">INSEE_code</span></code> are set to None by default to include the case of a territory studied that do not correspond to a french municipality.
+<code class="docutils literal notranslate"><span class="pre">village_name</span></code> could correspond to the name of territory studied if it is not a municipality.
+Then, results from SEBE simulation are used to obtain the distribution of the average annual irradiation and the associated fitted Johnson’s SU distribution.
+Statistical indicators to describe the distribution and the fitted Johnson’s SU are obtained, as well as two indicators, SVI and DFI, to describe the far mask (topography) and the meteorologial situation of the municipality.
+The dataframe is then exported in a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_csv_folder</strong> (<em>pathlib.Path</em>) – path of the folder with temporary csv files (define in main function)</p></li>
+<li><p><strong>path_raster_files</strong> (<em>pathlib.Path</em>) – path of the folder with temporary raster files (define in main function)</p></li>
+<li><p><strong>path_final_output_folder</strong> (<em>pathlib.Path</em>) – path of the folder with the final results (define in main function)</p></li>
+<li><p><strong>path_shapefiles</strong> (<em>pathlib.Path</em>) – path of the folder with temporary shapefiles (define in main function)</p></li>
+<li><p><strong>grid_gpd</strong> (<em>GeoDataFrame</em>) – geopandas grid file</p></li>
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where are saved all the meteorological files</p></li>
+<li><p><strong>village_name</strong> (<em>str</em>) – municipality name</p></li>
+<li><p><strong>village_INSEE_code</strong> (<em>str</em><em>, </em><em>optional</em>) – INSEE code of the municipality, by default None</p></li>
+<li><p><strong>village_departement</strong> (<em>str</em><em>, </em><em>optional</em>) – departement the municipality, by default None</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to indicate if an average of the meteorological files was done or not, by default True</p></li>
+<li><p><strong>population_column</strong> (<em>str</em><em>, </em><em>optional</em>) – name of the column with number of inhabitants of the studied municipality in the municipality footprint shapefile, by default “POPULATION”</p></li>
+<li><p><strong>nb_tests</strong> (<em>int</em><em>, </em><em>optional</em>) – number of time to test downloading the horizon file if there is a connection problem, by default 5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>df</strong> – dataframe with all the characteristics of the village and of the solar distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.johnsonsu_mean">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">johnsonsu_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.johnsonsu_mean" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the mean value of a Johnson’s SU distribution from fitting parameters a,b,c,d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mean</strong> – mean value of the Johnson’s SU distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.johnsonsu_median">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">johnsonsu_median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.johnsonsu_median" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the median value of a Johnson’s SU distribution from fitting parameters a,b,c,d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>median</strong> – median value of the Johnson’s SU distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.johnsonsu_mode">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">johnsonsu_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.johnsonsu_mode" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the mode value of a Johnson’s SU distribution from fitting parameters a,b,c,d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>mode</strong> (<em>float</em>) – mode value of the Johnson’s SU distribution</p></li>
+<li><p><strong>p_mode</strong> (<em>float</em>) – probability value at mode’s value of the Johnson’s SU distribution</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.johnsonsu_std">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">johnsonsu_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.johnsonsu_std" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the standard deviation value of a Johnson’s SU distribution from fitting parameters a,b,d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,d), d is the scale parameter</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>std</strong> – standard deviation value of the Johnson’s SU distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.johnsonsu_variance">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">johnsonsu_variance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.johnsonsu_variance" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the variance value of a Johnson’s SU distribution from fitting parameters a,b,d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,d), d is the scale parameter</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>variance</strong> – variance value of the Johnson’s SU distribution</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.results.village_characteristics.johnsonsu_width">
+<span class="sig-prename descclassname"><span class="pre">toscana.results.village_characteristics.</span></span><span class="sig-name descname"><span class="pre">johnsonsu_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divide</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.results.village_characteristics.johnsonsu_width" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the spread of a Johnson’s SU distribution at a certain percentage of the maximum value (probability value of the mode) from fitting parameters a,b,c,d.
+It looks for the two x values for which the probability value is equal to 1/<code class="docutils literal notranslate"><span class="pre">divide</span></code> of the probability value of the mode, and then calculate the difference between these two values.
+It is made to calculte the spread at one-third maximum (<code class="docutils literal notranslate"><span class="pre">divide</span></code> = 3).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p></li>
+<li><p><strong>divide</strong> (<em>float</em>) – value used to divide the probability maximum value and obtain a probability height at which the spread of the distribution is wanted. This value is used to search for the x values corresponding of this probability value in the Johnson’s SU distribution from fitting parameters a,b,c,d</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>values_below_mode</strong> (<em>float</em>) – x value with probability equal to 1/divide of the probability value of the mode, x value smaller than the mode value</p></li>
+<li><p><strong>values_above_mode</strong> (<em>float</em>) – x value with probability equal to 1/divide of the probability value of the mode, x value higher than the mode value</p></li>
+<li><p><strong>spread</strong> (<em>float</em>) – spread of the distribution at 1/divide maximum</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-toscana.results">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-toscana.results" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="toscana.solar_simulation.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">toscana.solar_simulation package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="toscana.data_pre_processing.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">toscana.data_pre_processing package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Apolline Ferry
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">toscana.results package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-toscana.results.results_vizualisation">toscana.results.results_vizualisation module</a><ul>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.display_SEBE_raster"><code class="docutils literal notranslate"><span class="pre">display_SEBE_raster()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.display_distribution"><code class="docutils literal notranslate"><span class="pre">display_distribution()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.display_elevation_file"><code class="docutils literal notranslate"><span class="pre">display_elevation_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.display_histogram"><code class="docutils literal notranslate"><span class="pre">display_histogram()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.display_results"><code class="docutils literal notranslate"><span class="pre">display_results()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.display_zonal_stat_shapefile"><code class="docutils literal notranslate"><span class="pre">display_zonal_stat_shapefile()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.results_vizualisation.generate_irradiation_csv_file"><code class="docutils literal notranslate"><span class="pre">generate_irradiation_csv_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-toscana.results.village_characteristics">toscana.results.village_characteristics module</a><ul>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.calculate_DFI"><code class="docutils literal notranslate"><span class="pre">calculate_DFI()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.calculate_SVI"><code class="docutils literal notranslate"><span class="pre">calculate_SVI()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.calculate_area_and_perimeter"><code class="docutils literal notranslate"><span class="pre">calculate_area_and_perimeter()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.calculate_village_characteristics"><code class="docutils literal notranslate"><span class="pre">calculate_village_characteristics()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.calculate_village_distribution_characteristics"><code class="docutils literal notranslate"><span class="pre">calculate_village_distribution_characteristics()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.johnsonsu_mean"><code class="docutils literal notranslate"><span class="pre">johnsonsu_mean()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.johnsonsu_median"><code class="docutils literal notranslate"><span class="pre">johnsonsu_median()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.johnsonsu_mode"><code class="docutils literal notranslate"><span class="pre">johnsonsu_mode()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.johnsonsu_std"><code class="docutils literal notranslate"><span class="pre">johnsonsu_std()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.johnsonsu_variance"><code class="docutils literal notranslate"><span class="pre">johnsonsu_variance()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.results.village_characteristics.johnsonsu_width"><code class="docutils literal notranslate"><span class="pre">johnsonsu_width()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-toscana.results">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

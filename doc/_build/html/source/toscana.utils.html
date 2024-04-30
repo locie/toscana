@@ -1,0 +1,409 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="toscana.solar_simulation package" href="toscana.solar_simulation.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>toscana.utils package - toscana 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">toscana 0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">toscana 0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="toscana.data_post_processing.html">toscana.data_post_processing package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toscana.data_pre_processing.html">toscana.data_pre_processing package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toscana.results.html">toscana.results package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="toscana.solar_simulation.html">toscana.solar_simulation package</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">toscana.utils package</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="toscana-utils-package">
+<h1>toscana.utils package<a class="headerlink" href="#toscana-utils-package" title="Link to this heading">#</a></h1>
+<section id="module-toscana.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-toscana.utils" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.utils.calculate_histogram_and_johnsonsu_fit">
+<span class="sig-prename descclassname"><span class="pre">toscana.utils.</span></span><span class="sig-name descname"><span class="pre">calculate_histogram_and_johnsonsu_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_irradiation_csv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_buffer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.utils.calculate_histogram_and_johnsonsu_fit" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the histogram/distribution from a csv file and calculate the fitted Johnson’s SU distribution.</p>
+<p>It is especially made to calculate the histogram for the distribution of the average annual irradiation received by building rooftops, with x value representing irradiation values and y value representing probability values.
+Two methods are tested to fit the Johnson’s SU distribution : a classic method (init) and a method by setting floc = xmax (xmax, setting the location parameter to the maximum value of x value of the real distribution).
+The fitting parameters (a,b,c,d) with the best R2 coefficient value are kept.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_irradiation_csv</strong> (<em>pathlib.Path</em>) – path of the csv file with irradiation value (path_irradiation_csv obtained in generate_irradiation_csv_file)</p></li>
+<li><p><strong>bool_buffer</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to specify or not if the shapefile with building footprints used to obtain the irradiation value has a buffer and then na value need to be removed, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>data</strong> (<em>DataFrame</em>) – dataframe with irradiation values</p></li>
+<li><p><strong>nb_bins</strong> (<em>int</em>) – number of bins in the histogram</p></li>
+<li><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p></li>
+<li><p><strong>x</strong> (<em>list</em>) – x values used to calculate the histogram (middle value of the bar), with two more values added (that will be used for the display of Johnson’s SU fit)</p></li>
+<li><p><strong>R2</strong> (<em>float</em>) – best R2 coefficient calculated between the real distribution and the fitted Johnson’s SU distribution between the two methods (classic (init) or floc=xmax(xmax))</p></li>
+<li><p><strong>R2_init</strong> (<em>float</em>) – R2 coefficient calculated between the real distribution and the fitted Johnson’s SU distribution with classic method</p></li>
+<li><p><strong>R2_xmax</strong> (<em>float</em>) – R2 coefficient calculated between the real distribution and the fitted Johnson’s SU distribution by setting floc = xmax (maximum value of the x value of the real distribution)</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – name of the method with the best R2 coefficient between the classic method or by setting floc = xmax (maximum value of the x value of the real distribution) (init for initial, or xmax for floc =xmax)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.utils.calculate_r2_johnsonsu">
+<span class="sig-prename descclassname"><span class="pre">toscana.utils.</span></span><span class="sig-name descname"><span class="pre">calculate_r2_johnsonsu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fitting_parameters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_obs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.utils.calculate_r2_johnsonsu" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the R2 coefficient between the real distribution (<code class="docutils literal notranslate"><span class="pre">x_obs</span></code> and <code class="docutils literal notranslate"><span class="pre">y_obs</span></code>) and the Johnson’s SU distribution from <cite>fitting_parameters`</cite> a,b,c,d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fitting_parameters</strong> (<em>tuple</em>) – float tuple with the fitting parameters of the Johnson’s SU distribution (a,b,c,d), c is the location parameter and d is the scale parameter</p></li>
+<li><p><strong>x_obs</strong> (<em>list</em>) – list of x value of the real distribution (irradiation)</p></li>
+<li><p><strong>y_obs</strong> (<em>list</em>) – list of y value of the real distribution (probability)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>r2_johnsonsu</strong> – R2 coefficient calculated between real distribution and Johnson’s SU distribution.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.utils.clip_raster">
+<span class="sig-prename descclassname"><span class="pre">toscana.utils.</span></span><span class="sig-name descname"><span class="pre">clip_raster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_mask_shapefiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_input_raster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_raster</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.utils.clip_raster" title="Link to this definition">#</a></dt>
+<dd><p>Clip a raster based on a shapefile mask layer (a grid tile for example).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_mask_shapefiles</strong> (<em>pathlib.Path</em>) – path of the shapefile used as mask (clip to the shapefile extent) (for example path_clip_grid obtained in <cite>clip_grid</cite> or path_reproject_municipality_footprint obtained in <cite>reproject_municipality_footprint</cite>)</p></li>
+<li><p><strong>path_input_raster</strong> (<em>pathlib.Path</em>) – path of the raster that need to be clipped (for example DSM, DHM)</p></li>
+<li><p><strong>path_clip_raster</strong> (<em>pathlib.Path</em>) – path where to save the clip raster layer (raster tiles for example)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.utils.create_centroid">
+<span class="sig-prename descclassname"><span class="pre">toscana.utils.</span></span><span class="sig-name descname"><span class="pre">create_centroid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_centroid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.utils.create_centroid" title="Link to this definition">#</a></dt>
+<dd><p>Create centroids of a shapefile (grid, municipality footprint for example).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_shapefile</strong> (<em>pathlib.Path</em>) – path of the shapefile for which the centroids are wanted (for example path_grid obtained in <cite>define_grid</cite>, or path_reproject_municipality_footprint obtained in <cite>reproject_municipality_footprint</cite>)</p></li>
+<li><p><strong>path_centroid</strong> (<em>pathlib.Path</em>) – path where to save the created shapefile with the centroids</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>gdf_centroid</strong> – geopandas file with the centroids</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.utils.create_csv_coordinates">
+<span class="sig-prename descclassname"><span class="pre">toscana.utils.</span></span><span class="sig-name descname"><span class="pre">create_csv_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_shapefile_coordinates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.utils.create_csv_coordinates" title="Link to this definition">#</a></dt>
+<dd><p>Obtain the coordinates (longitude, latitude) of some points (centroids for example) in a shapefile and transform it into a csv file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_shapefile</strong> (<em>pathlib.Path</em>) – path of the shapefile with the points for which the coordinates are wanted</p></li>
+<li><p><strong>path_shapefile_coordinates</strong> (<em>pathlib.Path</em>) – path where to save the shapefile with the coordinates of the points</p></li>
+<li><p><strong>path_csv_file</strong> (<em>pathlib.Path</em>) – path where to save the csv file with the coordinates of the points</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>df_points</strong> – dataframe with coordinates of the points.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.utils.zonal_statistics">
+<span class="sig-prename descclassname"><span class="pre">toscana.utils.</span></span><span class="sig-name descname"><span class="pre">zonal_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_shapefile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_zonal_statistics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.utils.zonal_statistics" title="Link to this definition">#</a></dt>
+<dd><p>Obtain statistics for each shape of a shapefile according to a raster file (count the number of pixel (default :True), sum the pixel values (default : True), average of the pixel values (default : True)). <code class="docutils literal notranslate"><span class="pre">column_prefix</span></code> could be used to define the name of the column where will be stored the statistics (linked with the raster data that are used to calculate the statistics for example).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_shapefile</strong> (<em>pathlib.Path</em>) – path of the shapefile containing the shapes for which statistics are wanted (path_buildings_buffer obtained in <cite>create_buffer</cite> for example)</p></li>
+<li><p><strong>path_raster</strong> (<em>pathlib.Path</em>) – path of the raster containing the value on which statistics will be calculated (path_merge_SEBE_raster obtained in <cite>merge_SEBE_raster</cite> for example)</p></li>
+<li><p><strong>path_zonal_statistics</strong> (<em>pathlib.Path</em>) – path where to save the layer with zonal statistics</p></li>
+<li><p><strong>bool_count</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to obtain or not the number of pixel inside each shape, by default True</p></li>
+<li><p><strong>bool_sum</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to obtain or not the sum of the pixel values inside each shape, by default True</p></li>
+<li><p><strong>bool_mean</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to obtain or not the average of the pixel values inside each shape, by default True</p></li>
+<li><p><strong>column_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – prefix name of the columns that will be created to store the different statistics, by default ‘_’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>column_prefix</strong> – prefix name of the columns that are created to store the different statistics</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="toscana.solar_simulation.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">toscana.solar_simulation package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Apolline Ferry
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">toscana.utils package</a><ul>
+<li><a class="reference internal" href="#module-toscana.utils">Module contents</a><ul>
+<li><a class="reference internal" href="#toscana.utils.calculate_histogram_and_johnsonsu_fit"><code class="docutils literal notranslate"><span class="pre">calculate_histogram_and_johnsonsu_fit()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.utils.calculate_r2_johnsonsu"><code class="docutils literal notranslate"><span class="pre">calculate_r2_johnsonsu()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.utils.clip_raster"><code class="docutils literal notranslate"><span class="pre">clip_raster()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.utils.create_centroid"><code class="docutils literal notranslate"><span class="pre">create_centroid()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.utils.create_csv_coordinates"><code class="docutils literal notranslate"><span class="pre">create_csv_coordinates()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.utils.zonal_statistics"><code class="docutils literal notranslate"><span class="pre">zonal_statistics()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>
