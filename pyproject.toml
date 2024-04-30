@@ -46,4 +46,4 @@ classifiers = [
 [project.urls]
 Laboratory = "https://www.univ-smb.fr/locie/"
 # Documentation = "https://umep-docs.readthedocs.io/en/latest/processor/Solar%20Radiation%20Solar%20Energy%20on%20Building%20Envelopes%20(SEBE).html"
-# Repository = "https://github.com/apollineferry?tab=repositories"
+Repository = "https://github.com/locie/toscana"
