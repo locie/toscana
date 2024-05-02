@@ -12,6 +12,26 @@ This tool facilitates simulation over large scale by gathering and consolidating
 `toscana` has been developped to be compatible with open-access databases for the French territory, but can be adapated for other databases (after adjusting them to the required format).
 
 
+## Example 
+
+An example of usage is provided in the tests folder in `test`. 
+To run the example, you need at least to specify a `working_directory` (a folder path) in the `test` file (line 26).
+The example will allow you to obtain a solar cadastre for the village of *La Croix-de-la-Rochette* (INSEE code : 73095). 
+
+
+There are two options to execute this test : 
+- First option : set `download_BDTOPO` and `download_DEM` to True. This will utilize two functions that allow for the direct downloading of the BDTOPO (IGN) for the chosen departement and the raster files from OpenDem for the selected municipality. 
+- Second option : set `download_BDTOPO` and `download_DEM` to False, and download the data from [toscana_test_data](https://github.com/locie/toscana_test_data). Then, place these downloaded data in a subfolder named **DATA** within your specified **working directory**. 
+    These data can be obtained as follows : 
+    - The shapefiles _BATIMENT_ and _COMMUNE_ can be found by downloading the dataset from the BDTOPO for departement 73 ([IGN database](https://geoservices.ign.fr/bdtopo)).\
+        - _COMMUNE.shp_ can be found in the subfolder  : "/BDTOPO/1_DONNEES_LIVRAISON_XXXX-XX-XXXXX/BDT_X-X_SHP_LAMB93_D073-EDXXXX-XX-XX/ADMINISTRATIF/". \
+        - _BATI.shp_ can be found in the subfolder : "/BDTOPO/1_DONNEES_LIVRAISON_XXXX-XX-XXXXX/BDT_X-X_SHP_LAMB93_D073-EDXXXX-XX-XX/BATI/".\
+        - XXXX represents numbers that depend on the version of the dataset. \
+    - The raster file _N245E400.tif_ can be downloaded from [OpenDem](https://www.opendem.info/opendemeu_download_highres.html).
+
+If the first option is selected, the municipality can be changed by modifying `village_name`, `village_INSEE_code` and `village_departement`. 
+
+
 ## Databases
 
 Three main inputs are required to use this package : one shapefile with the municipality/territory footprint, one shapefile with the building footprints and one raster file with a DEM.
@@ -62,15 +82,6 @@ Some comon problems have been identified and have not yet been resolved:
 - To address negative results from the SEBE calculation, the direct and diffuse irradiation components could be estimated from global irradiation. However, in some cases, the sky irradiance distribution could failed if these components are estimated from global irradiation.
 
 
-## Example 
-An example of usage is provided in the tests folder in `test`. This example utilizes the dataset located in the **DATA** subfolder.
-The shapefiles _BATIMENT_ and _COMMUNE_ can be found by downloading the dataset from the BDTOPO from departement 73 ([IGN database](https://geoservices.ign.fr/bdtopo)).\
-_COMMUNE.shp_ can be found in the subfolder  : "/BDTOPO/1_DONNEES_LIVRAISON_XXXX-XX-XXXXX/BDT_X-X_SHP_LAMB93_D073-EDXXXX-XX-XX/ADMINISTRATIF/". \
-_BATI.shp_ can be found in the subfolder : "/BDTOPO/1_DONNEES_LIVRAISON_XXXX-XX-XXXXX/BDT_X-X_SHP_LAMB93_D073-EDXXXX-XX-XX/BATI/".\
-XXXX represents numbers that depend on the version of the dataset. \
-The raster file _N245E400.tif_ can be downloaded from [OpenDem](https://www.opendem.info/opendemeu_download_highres.html).
-
-Two functions are also available that allow for the direct downloading of the BDTOPO for the chosen departement and the raster files from OpenDem for the selected municipality. 
 
 ## Documentation
 
