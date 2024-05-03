@@ -18,7 +18,6 @@ An example of usage is provided in the tests folder in `test`.
 To run the example, you need at least to specify a `working_directory` (a folder path) in the `test` file (line 26).
 The example will allow you to obtain a solar cadastre for the village of *La Croix-de-la-Rochette* (INSEE code : 73095). 
 
-
 There are two options to execute this test : 
 - First option : set `download_BDTOPO` and `download_DEM` to True. This will utilize two functions that allow for the direct downloading of the BDTOPO (IGN) for the chosen departement and the raster files from OpenDem for the selected municipality. 
 - Second option : set `download_BDTOPO` and `download_DEM` to False, and download the data from [toscana_test_data](https://github.com/locie/toscana_test_data). Then, place these downloaded data in a subfolder named **DATA** within your specified **working directory**. 
@@ -30,7 +29,6 @@ There are two options to execute this test :
     - The raster file _N245E400.tif_ can be downloaded from [OpenDem](https://www.opendem.info/opendemeu_download_highres.html).
 
 If the first option is selected, the municipality can be changed by modifying `village_name`, `village_INSEE_code` and `village_departement`. 
-
 
 ## Databases
 
@@ -82,7 +80,6 @@ Some comon problems have been identified and have not yet been resolved:
 - To address negative results from the SEBE calculation, the direct and diffuse irradiation components could be estimated from global irradiation. However, in some cases, the sky irradiance distribution could failed if these components are estimated from global irradiation.
 
 
-
 ## Documentation
 
 You can access the documentation in 3 ways:
@@ -115,7 +112,7 @@ Below is a small code snippet that would set up a proper conda environment:
 conda create -n toscana_env python=3.10
 conda activate toscana_env
 conda install -y conda-forge::qgis=3.34 conda-forge::pvlib conda-forge::matplotlib-scalebar
-conda install -y rasterio matplotlib tqdm scipy scikit-learn statistics shapely geopandas pandas 
+conda install -y rasterio matplotlib tqdm scipy scikit-learn shapely geopandas pandas 
 
 ```
 
@@ -139,11 +136,6 @@ You can test your installation by running `import toscana` inside a Python inter
 ### Notes
 
 A conda package might be available in a near future.
-
-
-
- 
-
 
 ## Detailed description 
 
