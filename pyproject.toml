@@ -1,11 +1,9 @@
-
-
 [build-system]
 requires = ["setuptools >= 60.5.0", "wheel"]
 build-backend = "setuptools.build_meta"
-authors = [{name="Apolline Ferry", email="apolline.ferry@laposte.net"}]
 
 [project]
+authors = [{name="Apolline Ferry", email="apolline.ferry@laposte.net"}]
 name = "toscana"
 version = "0.1"
 description = "toscana allows to run SEBE simulation at village scale to obtain building rooftop irradiation, using open-access database (BDTOPO, OpenDEM)"                        
@@ -45,5 +43,7 @@ classifiers = [
 
 [project.urls]
 Laboratory = "https://www.univ-smb.fr/locie/"
-# Documentation = "https://umep-docs.readthedocs.io/en/latest/processor/Solar%20Radiation%20Solar%20Energy%20on%20Building%20Envelopes%20(SEBE).html"
 Repository = "https://github.com/locie/toscana"
+Documentation = "https://github.com/locie/toscana/blob/main/doc/_build/toscana.pdf"
+# Documentation = "https://umep-docs.readthedocs.io/en/latest/processor/Solar%20Radiation%20Solar%20Energy%20on%20Building%20Envelopes%20(SEBE).html"
+

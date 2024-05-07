@@ -126,6 +126,16 @@ Don't forget to [install `UMEP` and `UMEP for processing` from Qgis **Plugin Man
 
 ### `toscana` installation
 
+
+#### `pip` installation (preferred way)
+
+1. Activate your conda environment (`toscana_env`)
+2. Run `pip install toscana`.
+
+**note**: installation of packages using `pip` within a conda environment is usually depreciated, yet this one is very unlikely to break your environment.
+
+#### Manual installation
+
 1. Clone this repository: `git clone <Github_repo>`
 2. Move to the cloned directory: `cd toscana`
 3. Activate your conda environment (`toscana_env`)
