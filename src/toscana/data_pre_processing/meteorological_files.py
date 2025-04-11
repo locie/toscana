@@ -3,7 +3,7 @@ from ..utils import processing
 
 
 from pandas import read_csv, DataFrame, concat
-from geopandas import GeoDataFrame
+from geopandas import GeoDataFrame, read_file
 from pvlib.iotools import get_pvgis_tmy
 
 from numpy import sqrt, pi, exp, max, sum, array
@@ -1002,3 +1002,589 @@ def _obtain_meteorological_files_no_average(df_centroid, path_txt_folder, path_m
                                 df_list_tiles = DataFrame({'tile_number': list_tiles_incorrect_meteorological, 'error': list_error})
     path_list_tiles = path_meteorological_folder / "list_incorrect_tiles_meteorological.csv"
     df_list_tiles.to_csv(str(path_list_tiles), index=False)
+
+
+
+def _obtain_start_end_days_per_month(month):
+    """Obtain the day number of the year of the start and end day of a given month. 
+
+    Parameters
+    ----------
+    month : int
+        month number in the year 
+
+    Returns
+    -------
+    start_day : int
+        day number of the year of the start day of the given month
+    end_day : int
+        day number of the year of the end day of the given month
+
+    Raises
+    ------
+    TypeError
+        month must be a int (or string of numbers)
+    AssertionError
+        month must be between 1 and 12
+    """    
+    if isinstance(month,str): 
+        try : 
+            month = int(month)
+        except :
+            raise TypeError("month must be a int!")
+
+    if month<0 or month>12 : 
+        raise AssertionError('Month must be between 1 and 12 ! ')
+
+    start_day = 1
+    end_day = 31
+    if month==2: 
+        start_day=32
+        end_day = start_day +27
+    if month==3: 
+        start_day = 60
+        end_day = start_day +30
+    if month ==4 :
+        start_day = 91
+        end_day = start_day +29
+    if month==5 : 
+        start_day = 121
+        end_day = start_day +30
+    if month ==6 : 
+        start_day = 152
+        end_day = start_day +29
+    if month == 7: 
+        start_day = 182
+        end_day = start_day +30
+    if month==8: 
+        start_day = 213
+        end_day = start_day +30
+    if month==9:
+        start_day = 244
+        end_day = start_day +29
+    if month==10:
+        start_day =274
+        end_day = start_day +30
+    if month==11 :
+        start_day=305
+        end_day = start_day +29
+    if month==12:
+        start_day = 335
+        end_day = start_day +30
+    return start_day, end_day
+
+
+def _convert_date_into_day_number(day, month):
+    """Obtain the day number of the year of a given date (day and month).
+
+    Parameters
+    ----------
+    day : int
+        day number of the month
+    month : int
+        month number of the year
+
+    Returns
+    -------
+    day_number
+        day number of the year of the given date
+
+    Raises
+    ------
+    TypeError
+        month and day must be int (or string of numbers)
+    AssertionError
+        day must be between 1 and 28,30 or 31 depending on the month
+    """    
+    if isinstance(month,str): 
+        try : 
+            month = int(month)
+        except :
+            raise TypeError("month must be a int!")
+    if isinstance(day,str): 
+        try : 
+            day = int(day)
+        except :
+            raise TypeError("day must be a int!")
+
+    if month<0 or month>12 : 
+        raise AssertionError('Month must be between 1 and 12 ! ')
+    if month==1:
+        start_day=1
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for January ! ')
+    if month==2: 
+        start_day=32
+        if day<0 or day>28: 
+            raise AssertionError('Day must be between 1 and 28 for February ! ')
+    if month==3: 
+        start_day = 60
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for March ! ')
+    if month ==4 :
+        start_day = 91
+        if day<0 or day>30: 
+            raise AssertionError('Day must be between 1 and 30 for April ! ')
+    if month==5 : 
+        start_day = 121
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for May ! ')
+    if month ==6 : 
+        start_day = 152
+        if day<0 or day>30: 
+            raise AssertionError('Day must be between 1 and 30 for June ! ')
+    if month == 7: 
+        start_day = 182
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for July ! ')
+    if month==8: 
+        start_day = 213
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for August ! ')
+    if month==9:
+        start_day = 244
+        if day<0 or day>30: 
+            raise AssertionError('Day must be between 1 and 30 for September ! ')
+    if month==10:
+        start_day =274
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for October ! ')
+    if month==11 :
+        start_day=305
+        if day<0 or day>30: 
+            raise AssertionError('Day must be between 1 and 28 for November ! ')
+    if month==12:
+        start_day = 335
+        if day<0 or day>31: 
+            raise AssertionError('Day must be between 1 and 31 for December ! ')
+    
+    day_number =(start_day+day-1)
+    return day_number
+
+def _select_days(days, df): 
+    """Generate a new meteorological files with only the selected days or period.
+
+    Parameters
+    ----------
+    days : list
+        list of the day numbers of the year of the days that should be conserved in the new meteorological files
+    df : Dataframe
+        dataframe with the initial meteorological data
+
+    Returns
+    -------
+    df_final : Dataframe
+        dataframe with the meteorological data of the given days
+
+    Raises
+    ------
+    TypeError
+        days must be a list of int (or a list of strings of numbers)
+    AssertionError
+        day numbers of the year must be between 1 and 365
+    """    
+    if isinstance(days[0],str): 
+        try : 
+            days[0] = int(days[0])
+        except :
+            raise TypeError("days must be a list of int!")
+    
+    if days[0]<0 or days[0] > 365 : 
+        raise AssertionError('Day number of the year must be between 1 and 365 ! ')
+    df_final = df[df['id']==days[0]]
+    for i in range(1, len(days)): 
+        if days[i]<0 or days[i] > 365 : 
+            raise AssertionError('Day number of the year must be between 1 and 365 ! ')
+        if isinstance(days[i],str): 
+            try : 
+                days[i] = int(days[i])
+            except :
+                raise TypeError("days must be a list of int!")
+        df_s = df[df['id']==days[i]]
+        df_final = concat([df_final, df_s])
+    return df_final
+
+
+def transform_days_into_period(start_day, start_month, end_day, end_month):  
+    """Obtain a list with the day numbers of the year for a given period, defined with the date of the first day (day of the month and month of the year) and the date of the last day of the period (day of the month and month of the year).
+
+    Parameters
+    ----------
+    start_day : int
+        day number of the month of the first day of the period
+    start_month : int
+        month number of the year of the first day of the period
+    end_day : int
+        day number of the month of the last day of the period
+    end_month : int
+        month number of the year of the last day of the period
+
+    Returns
+    -------
+    list_days : list
+        list with the day number of the year of all the days in the given period
+    """    
+    day_number_start = _convert_date_into_day_number(start_day, start_month)
+    day_number_end = _convert_date_into_day_number(end_day, end_month)
+
+    if day_number_start < day_number_end : 
+        list_days = range(day_number_start, day_number_end+1,1) 
+    else : 
+        list_days = range(day_number_end, day_number_start+1,1) 
+    return list_days
+
+
+def create_monthly_weather_file(path_meteorological_folder, list_month, path_gdf_centroid, average = True): 
+    """Obtain monthly meteorological files from annual meteorological files for given months. Subfolders to save the monthly weather files are created. 
+
+    Parameters
+    ----------
+    path_meteorological_folder : pathlib.Path
+        path of the folder where ared saved the initial meteorological files
+    list_month : list
+        list of the months for which monthly weather files will be generated
+    path_gdf_centroid : pathlib.Path
+        path of the geopandas file with the centroid of the actual grid (obtained in `create_centroid`)
+    average : bool, optional
+        boolean value to do or not an average of the meteorological files, by default True
+
+    Raises
+    ------
+    TypeError
+        month must be a int (or a string of numbers)
+    AssertionError
+        month must be between 1 and 12    
+        
+    """
+    gdf_centroid = read_file(str(path_gdf_centroid))
+    for month in list_month : 
+        if isinstance(month,str): 
+            try : 
+                month = int(month)
+            except :
+                raise TypeError("list_month must be a list of int!")
+    
+        if month < 1 or month >12 : 
+            raise AssertionError('Month must be between 1 and 12!')
+
+        path_monthly_weather_file = path_meteorological_folder / "monthly_files"
+        path_monthly_weather_file.mkdir(exist_ok=True)
+
+        path_folder_month = path_monthly_weather_file /f"{month}"
+        path_folder_month.mkdir(exist_ok=True)
+
+        if average : 
+            path_folder_month_average = path_folder_month / "average_files"
+            path_folder_month_average.mkdir(exist_ok=True)        
+
+            path_average_folder = path_meteorological_folder / "average_files"
+        else : 
+            path_folder_month_txt = path_folder_month / "txt_files"
+            path_folder_month_txt.mkdir(exist_ok=True)
+  
+            path_txt_folder = path_meteorological_folder / "txt_files"
+
+        fc = len(gdf_centroid)
+
+        for tile in tqdm(range(0,fc)): 
+
+            if average : 
+                path_old_average_file = path_average_folder/ f"average_txt_files_center_grid_{tile+1}.txt"
+                try : 
+                    old_average = read_csv(str(path_old_average_file), delimiter = " ")
+                except FileNotFoundError as e: 
+                    if ("Not such file or directory" in str(e)) : 
+                        print('Annual average txt meteorological files should be generated and saved before obtaining monthly average txt meteorological files.')
+
+            else:
+                path_old_txt_file = path_txt_folder / f"txt_files_center_grid_{tile+1}.txt"
+                try : 
+                    old_txt = read_csv(str(path_old_txt_file), delimiter = " ")
+                except FileNotFoundError as e: 
+                    if ("Not such file or directory" in str(e)) : 
+                        print('Annual txt meteorological files should be generated and saved before obtaining monthly txt meteorological files.')
+
+            start_day, end_day = _obtain_start_end_days_per_month(month)
+            range_days = range(start_day, end_day+1,1)
+
+            if average : 
+                new_average = _select_days(range_days, old_average)
+                path_new_average_file = path_folder_month_average/ f"average_txt_files_center_grid_{tile+1}.txt"
+                new_average.to_csv(str(path_new_average_file), index=False, sep=' ')
+            else : 
+                new_txt = _select_days(range_days, old_txt)
+                path_new_txt_file = path_folder_month_txt/ f"txt_files_center_grid_{tile+1}.txt"
+                new_txt.to_csv(str(path_new_txt_file), index=False, sep=' ')
+
+
+def create_period_weather_file(name_folder_period, path_meteorological_folder, path_gdf_centroid,list_days, average = True): 
+    """Obtain meteorological files for a given period from annual meteorological files. Subfolders to save the new weather files are created. 
+
+    Parameters
+    ----------
+    name_folder_period : str
+        name of the folder where to save the meteorological files for the given period
+    path_meteorological_folder : pathlib.Path
+        path of the folder where ared saved the initial meteorological files
+    path_gdf_centroid : pathlib.Path
+        path of the geopandas file with the centroid of the actual grid (obtained in `create_centroid`)
+    list_days : list
+        list of the day numbers of the year included in the given period
+    average : bool, optional
+        boolean value to do or not an average of the meteorological files, by default True
+
+    Returns
+    -------
+    path_period_weather_file : pathlib.Path
+        path of the folder with the created meteorological files for the given period
+
+    Raises
+    ------
+    TypeError
+        list_days must be a list of int (or a list of strings of numbers)
+    AssertionError
+        day numbers must be between 1 and 365   
+    """
+    path_period_weather_file = path_meteorological_folder / name_folder_period
+    path_period_weather_file.mkdir(exist_ok=True)
+
+    if average : 
+        path_period_weather_average_file = path_period_weather_file / f"average_files"
+        path_period_weather_average_file.mkdir(exist_ok=True)
+        path_average_folder = path_meteorological_folder / "average_files"
+
+    else:
+        path_period_weather_txt_file = path_period_weather_file / f"txt_files"
+        path_period_weather_txt_file.mkdir(exist_ok=True)
+        path_txt_folder = path_meteorological_folder / "txt_files"
+
+
+    gdf_centroid = read_file(str(path_gdf_centroid))
+    fc = len(gdf_centroid)
+
+    for tile in tqdm(range(0,fc)): 
+
+        if average : 
+            path_old_average_file = path_average_folder/ f"average_txt_files_center_grid_{tile+1}.txt"
+            try : 
+                old_average = read_csv(str(path_old_average_file), delimiter = " ")
+            except FileNotFoundError as e: 
+                if ("Not such file or directory" in str(e)) : 
+                    print('Annual average txt meteorological files should be generated and saved before obtaining monthly average txt meteorological files.')
+        else:
+            path_old_txt_file = path_txt_folder / f"txt_files_center_grid_{tile+1}.txt"
+            try : 
+                old_txt = read_csv(str(path_old_txt_file), delimiter = " ")
+            except FileNotFoundError as e: 
+                if ("Not such file or directory" in str(e)) : 
+                    print('Annual txt meteorological files should be generated and saved before obtaining monthly txt meteorological files.')
+
+        mm = 0 
+        for day in list_days :
+            if isinstance(day,str): 
+                try : 
+                    day = int(day)
+                except :
+                    raise TypeError("list_days must be a list of int!")
+        
+            if day <1 or day > 365 : 
+                raise AssertionError("Day numbers should be between 1 and 365") 
+
+            d = []
+            d.append(day) 
+            if mm==0 : 
+                if average : 
+                    new_average = _select_days(d, old_average)
+                else : 
+                    new_txt =  _select_days(d, old_txt)
+            if mm > 0 : 
+                if average : 
+                    new_average_2 = _select_days(d, old_average)
+                    new_average = concat([new_average, new_average_2])
+                else : 
+                    new_txt_2 = _select_days(d, old_txt)
+                    new_txt = concat([new_txt, new_txt_2])
+            mm=mm+1
+
+
+        if average : 
+            path_new_average_file = path_period_weather_average_file/ f"average_txt_files_center_grid_{tile+1}.txt"
+            new_average.to_csv(str(path_new_average_file), index=False, sep=' ')
+        else : 
+            path_new_txt_file = path_period_weather_txt_file/ f"txt_files_center_grid_{tile+1}.txt"
+            new_txt.to_csv(str(path_new_txt_file), index=False, sep=' ')
+    return path_period_weather_file
+
+def create_winter_summer_month_weather_file( path_meteorological_folder, path_gdf_centroid, list_winter_month = [], list_summer_month=[],average = True): 
+    """Obtain meteorological files for two periods from annual meteorological files. One of the period should correspond to winter months, and is defined by default from January to March and from November to December. The second period should correspond to summer months, and is defined by default as all other months from the winter months. Subfolders to save the new weather files are created.
+
+    Parameters
+    ----------
+    path_meteorological_folder : pathlib.Path
+        path of the folder where ared saved the initial meteorological files
+    path_gdf_centroid : pathlib.Path
+        path of the geopandas file with the centroid of the actual grid (obtained in `create_centroid`)
+    list_winter_month : list, optional
+        list of the winter months, by default []
+    list_summer_month : list, optional
+        list_of the summer months, by default []
+    average : bool, optional
+        boolean value to do or not an average of the meteorological files, by default True
+
+    Returns
+    -------
+    path_folder_summer : pathlib.Path
+        path of the folder with the created summer meteorological files
+    path_folder_winter : pathlib.Path
+        path of the folder with the created winter meteorological files
+
+    Raises
+    ------
+    TypeError
+        list_winter_month and list_summer_month must be list of int (or list of strings of numbers)
+    AssertionError
+        month must be between 1 and 12     
+    """
+
+    gdf_centroid = read_file(str(path_gdf_centroid))
+    if list_winter_month == [] : 
+        list_winter_month = [1,2,3,11,12]
+    
+    list_all_months = [1,2,3,4,5,6,7,8,9,10,11,12]
+    
+    if list_summer_month == [] :  
+        for month in list_all_months : 
+            if isinstance(month,str): 
+                try : 
+                    month = int(month)
+                except :
+                    raise TypeError("list_summer_month must be a list of int!")
+            if month not in list_winter_month : 
+                list_summer_month.append(month)
+
+    path_winter_summer_weather_file = path_meteorological_folder / "winter_summer_files"
+    path_winter_summer_weather_file.mkdir(exist_ok=True)
+
+    path_folder_winter = path_winter_summer_weather_file/ f"winter"
+    path_folder_winter.mkdir(exist_ok=True)
+
+    path_folder_summer = path_winter_summer_weather_file/ f"summer"
+    path_folder_summer.mkdir(exist_ok=True)
+
+
+    if average : 
+
+        path_winter_average_weather_file = path_folder_winter / "average_files"
+        path_winter_average_weather_file.mkdir(exist_ok=True)        
+
+        path_summer_average_weather_file = path_folder_summer / "average_files"
+        path_summer_average_weather_file.mkdir(exist_ok=True)        
+
+        path_average_folder = path_meteorological_folder / "average_files"
+    else :
+
+        path_winter_txt_weather_file = path_folder_winter / "txt_files"
+        path_winter_txt_weather_file.mkdir(exist_ok=True)        
+
+        path_summer_txt_weather_file = path_folder_summer / "txt_files"
+        path_summer_txt_weather_file.mkdir(exist_ok=True)        
+
+        path_txt_folder = path_meteorological_folder / "txt_files"
+
+
+    fc = len(gdf_centroid)
+
+    for tile in tqdm(range(0,fc)): 
+
+        if average : 
+            path_old_average_file = path_average_folder/ f"average_txt_files_center_grid_{tile+1}.txt"
+            try : 
+                old_average = read_csv(str(path_old_average_file), delimiter = " ")
+            except FileNotFoundError as e: 
+                if ("Not such file or directory" in str(e)) : 
+                    print('Annual average txt meteorological files should be generated and saved before obtaining monthly average txt meteorological files.')
+        else:
+            path_old_txt_file = path_txt_folder / f"txt_files_center_grid_{tile+1}.txt"
+            try : 
+                old_txt = read_csv(str(path_old_txt_file), delimiter = " ")
+            except FileNotFoundError as e: 
+                if ("Not such file or directory" in str(e)) : 
+                    print('Annual txt meteorological files should be generated and saved before obtaining monthly txt meteorological files.')
+
+
+        mm = 0 
+        for month in list_winter_month : 
+            if isinstance(month,str): 
+                try : 
+                    month = int(month)
+                except :
+                    raise TypeError("list_winter_month must be a list of int!")
+        
+            if month < 1 or month >12 : 
+                raise AssertionError('Month must be between 1 and 12 ! ')
+
+            start_day, end_day = _obtain_start_end_days_per_month(month)
+            range_days = range(start_day, end_day+1,1)
+            if mm == 0 :
+                if average : 
+                    new_average = _select_days(range_days, old_average)
+                else : 
+                    new_txt =  _select_days(range_days, old_txt)
+            
+            if mm> 0 : 
+                if average : 
+                    new_average_2 = _select_days(range_days, old_average)
+                    new_average = concat([new_average, new_average_2])
+                else : 
+                    new_txt_2 = _select_days(range_days, old_txt)
+                    new_txt = concat([new_txt, new_txt_2])
+            mm=mm+1
+
+
+        if average : 
+            path_new_average_file = path_winter_average_weather_file/ f"average_txt_files_center_grid_{tile+1}.txt"
+            new_average.to_csv(str(path_new_average_file), index=False, sep=' ')
+        else : 
+            path_new_txt_file = path_winter_txt_weather_file/ f"txt_files_center_grid_{tile+1}.txt"
+            new_txt.to_csv(str(path_new_txt_file), index=False, sep=' ')
+
+        mm = 0 
+        for month in list_summer_month : 
+            if isinstance(month,str): 
+                try : 
+                    month = int(month)
+                except :
+                    raise TypeError("list_summer_month must be a list of int!")
+            
+            if month < 1 or month >12 : 
+                raise AssertionError('Month must be between 1 and 12 ! ')
+            
+            start_day, end_day = _obtain_start_end_days_per_month(month)
+            range_days = range(start_day, end_day+1,1)
+
+
+            if mm == 0 :
+                if average : 
+                    new_average = _select_days(range_days, old_average)
+                else : 
+                    new_txt =  _select_days(range_days, old_txt)
+            
+            if mm> 0 : 
+                if average : 
+                    new_average_2 = _select_days(range_days, old_average)
+                    new_average = concat([new_average, new_average_2])
+                else : 
+                    new_txt_2 = _select_days(range_days, old_txt)
+                    new_txt = concat([new_txt, new_txt_2])
+            mm=mm+1
+
+
+        if average : 
+            path_new_average_file = path_summer_average_weather_file/ f"average_txt_files_center_grid_{tile+1}.txt"
+            new_average.to_csv(str(path_new_average_file), index=False, sep=' ')
+        else : 
+            path_new_txt_file = path_summer_txt_weather_file/ f"txt_files_center_grid_{tile+1}.txt"
+            new_txt.to_csv(str(path_new_txt_file), index=False, sep=' ')
+    
+
+    return path_folder_summer, path_folder_winter

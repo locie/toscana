@@ -28,17 +28,22 @@ def display_elevation_file(path_raster, rectangle = True, bool_title_elevation= 
     fig, ax = plt.subplots(figsize=(11, 7))
     font = {'size' : 16}
     plt.rc('font', **font)
+    # font ={'family': 'Times New Roman', 'size':16}
+    # font = {'size':16}
+    # plt.rc('font', **font)
+    # plt.rcParams['font.family'] = 'serif'
+    # plt.rcParams['font.serif'] = 'Times New Roman'
     raster = rasterio_open(str(path_raster))
     data = raster.read(1, masked=True)
     vmin = floor(nanmin(data[data != 0]) / 10) * 10
     vmax = ceil(nanmax(data) / 10) * 10
-    cmap_reversed = plt.colormaps['Greys_r']
+    cmap_reversed = plt.colormaps['Greys_r']#gist_rainbow']# #
     cmap_custom = cmap_reversed
     norm = colors.Normalize(vmin=vmin, vmax=vmax)
     rioplot.show(raster, ax=ax, cmap = cmap_custom, norm=norm)
     image = ax.get_images()[0]
-    cbar = plt.colorbar(image, ax=ax, label ='Altitude (m)', shrink =1) 
-    cbar.set_label('Altitude (m)', fontsize=25) 
+    cbar = plt.colorbar(image, ax=ax, label ='Altitude (m)', shrink =1)  ##Aspect (°)
+    cbar.set_label('Altitude (m)', fontsize=25) ##Aspect (°)
     cbar.ax.tick_params(labelsize=25) 
     ax = plt.gca()
     ax.yaxis.set_major_formatter(plt.NullFormatter())
@@ -77,6 +82,13 @@ def display_SEBE_raster(path_raster, rectangle = False, bool_title_SEBE = False,
     fig, ax = plt.subplots(figsize=(11, 7))
     font = {'size':16}
     plt.rc('font', **font)
+    
+    # font ={'family': 'Times New Roman', 'size':16}
+    # font = {'size':16}
+    # plt.rc('font', **font)
+    # plt.rcParams['font.family'] = 'serif'
+    # plt.rcParams['font.serif'] = 'Times New Roman'
+
     raster = rasterio_open(str(path_raster))
     data = raster.read(1, masked=True)
     vmin = floor(nanmin(data[data != 0]) / 10) * 10

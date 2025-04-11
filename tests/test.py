@@ -23,18 +23,18 @@ village_departement = "73"
 """"""""""""""""""""""""""""""""""""""""""""""""
 
 ### DEFINE A WORKING DIRECTORY ! 
-working_directory = ""
+working_directory = Path("/home/ferryap/Desktop/test_toscana_months/")
 if not working_directory: 
     raise NameError("A working directory must be entered before starting the test!")
 
 working_directory.mkdir(exist_ok=True)
-(working_directory / 'DATA').mkdir(exist_ok=True)
+# (working_directory / 'DATA').mkdir(exist_ok=True)
 
-### DEM DOWNLOAD FROM OPENDEM, ONLY THE TILE CORRESPONDING TO THE REGION OF INTEREST : TILES N245E400 --> https://www.opendem.info/opendemeu_download_highres.html
-path_DEM = working_directory /"DATA/N245E400.tif" 
-## SHAPEFILE FROM IGN, COMING FROM THE FOLDER OF THE BDTOPO DOWNLOAD FROM THE DEPARTEMENT OF INTEREST :D073, LAYER COMMUNE FOR THE MUNICIPALITIES AND LAYER BATIMENT FOR THE BUILDINGS --> https://geoservices.ign.fr/bdtopo#telechargementshpdep2023 
-path_municipalities_dep = working_directory/ "DATA/COMMUNE.shp"
-path_buildings_dep = working_directory / "DATA/BATIMENT.shp"
+# ### DEM DOWNLOAD FROM OPENDEM, ONLY THE TILE CORRESPONDING TO THE REGION OF INTEREST : TILES N245E400 --> https://www.opendem.info/opendemeu_download_highres.html
+# path_DEM = working_directory /"DATA/N245E400.tif" 
+# ## SHAPEFILE FROM IGN, COMING FROM THE FOLDER OF THE BDTOPO DOWNLOAD FROM THE DEPARTEMENT OF INTEREST :D073, LAYER COMMUNE FOR THE MUNICIPALITIES AND LAYER BATIMENT FOR THE BUILDINGS --> https://geoservices.ign.fr/bdtopo#telechargementshpdep2023 
+# path_municipalities_dep = working_directory/ "DATA/COMMUNE.shp"
+# path_buildings_dep = working_directory / "DATA/BATIMENT.shp"
 
 
 ### CREATION OF A FOLDER TO CONTAIN ALL THE RESULTS 
@@ -108,10 +108,64 @@ iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_raster
 post_process(path_final_output_folder, grid_gpd, path_shapefiles, path_csv_files, column_prefix="sol_", average=average_meteorological_file, bool_global= bool_global, distance= -1.5)
 
 ## make some vizualisation of the results
-display_results(path_raster_files, path_final_output_folder, column_prefix="sol_")
+display_results(path_raster_files, path_final_output_folder, column_prefix="sol_", name_plot="Distribution_irradiation.pdf")
 
 ### store the usefull information into a dataframe/csv file 
 df_results = calculate_village_distribution_characteristics(path_csv_files, path_raster_files, path_final_output_folder, path_shapefiles,grid_gpd, path_meteorological_folder,village_name, village_INSEE_code, village_departement, average = average_meteorological_file)
+
+
+# ### select a shorter period than one year 
+# path_gdf_centroid =  path_meteorological_folder / "centroid_grid.shp"
+# list_days = list(transform_days_into_period(5, 1, 25, 2))
+# name_folder_period = "specific_period"
+# path_meteorological_folder_period = create_period_weather_file(name_folder_period,path_meteorological_folder, path_gdf_centroid, list_days, average=average_meteorological_file)
+# path_final_output_folder_period = path_final_output_folder/"specific_period"
+# path_final_output_folder_period.mkdir(exist_ok=True)
+# ## run the solar simulation for each grid tiles for the period
+# iterate_on_grid(grid_gpd, path_final_output_folder_period, path_clip_files, path_raster_files, path_meteorological_folder , path_csv_files, path_meteorological_subfolder=path_meteorological_folder_period,average = average_meteorological_file, restart_tile=1, bool_global=bool_global)
+# post_process(path_final_output_folder_period, grid_gpd, path_shapefiles, path_csv_files, column_prefix="sol_", average=average_meteorological_file, bool_global= bool_global, distance= -1.5)
+# display_results(path_raster_files, path_final_output_folder_period, column_prefix="sol_", name_plot="Distribution_irradiation.pdf")
+
+
+# ### create a winter and a summer period
+# path_gdf_centroid =  path_meteorological_folder / "centroid_grid.shp"
+# path_meteorological_folder_summer, path_meteorological_folder_winter = create_winter_summer_month_weather_file(path_meteorological_folder, path_gdf_centroid, average=average_meteorological_file)
+
+# path_final_output_folder_period = path_final_output_folder/"summer"
+# path_final_output_folder_period.mkdir(exist_ok=True)
+
+
+# ## run the solar simulation for each grid tiles for a winter period and a summer period
+# albedo_summer=0.15
+# iterate_on_grid(grid_gpd, path_final_output_folder_period, path_clip_files, path_raster_files, path_meteorological_folder , path_csv_files, path_meteorological_subfolder=path_meteorological_folder_summer,average = average_meteorological_file, restart_tile=1, bool_global=bool_global, albedo=albedo_summer)
+
+# post_process(path_final_output_folder_period, grid_gpd, path_shapefiles, path_csv_files, column_prefix="sol_", average=average_meteorological_file, bool_global= bool_global, distance= -1.5)
+# display_results(path_raster_files, path_final_output_folder_period, column_prefix="sol_", name_plot="Distribution_irradiation.pdf")
+
+# path_final_output_folder_period = path_final_output_folder/"winter"
+# path_final_output_folder_period.mkdir(exist_ok=True)
+
+# ## run the solar simulation for each grid tiles for a winter period and a summer period
+# albedo_winter=0.8
+# iterate_on_grid(grid_gpd, path_final_output_folder_period, path_clip_files, path_raster_files, path_meteorological_folder , path_csv_files, path_meteorological_subfolder=path_meteorological_folder_winter,average = average_meteorological_file, restart_tile=1, bool_global=bool_global, albedo=albedo_winter)
+
+# post_process(path_final_output_folder_period, grid_gpd, path_shapefiles, path_csv_files, column_prefix="sol_", average=average_meteorological_file, bool_global= bool_global, distance= -1.5)
+# display_results(path_raster_files, path_final_output_folder_period, column_prefix="sol_", name_plot="Distribution_irradiation.pdf")
+
+
+
+### create monthly period
+path_gdf_centroid =  path_meteorological_folder / "centroid_grid.shp"
+# list_month = ["1","12"]
+list_month=range(1,3,1)
+create_monthly_weather_file(path_meteorological_folder,list_month, path_gdf_centroid,average=average_meteorological_file)
+list_albedo_month=[0.8,0.15]#,0.8,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.8,0.8]
+launch_iterate_on_grid_per_month(grid_gpd,list_month, path_final_output_folder,path_clip_files,path_raster_files,path_meteorological_folder, path_csv_files, wall_limit=0.1, bool_global=True, utc=1, bool_save_sky_irradiance=True,restart_tile=1, average=True, list_albedo_month=list_albedo_month)
+
+for month in list_month :
+    path_final_output_folder_month = path_final_output_folder/f"monthly_results/{month}"
+    post_process(path_final_output_folder_month, grid_gpd, path_shapefiles, path_csv_files, column_prefix="sol_", average=average_meteorological_file, bool_global= bool_global, distance= -1.5)
+    display_results(path_raster_files, path_final_output_folder_month, column_prefix="sol_", name_plot="Distribution_irradiation.pdf")
 
 
 """
@@ -187,8 +241,37 @@ Structure of the output folder
                 - txt_files_center_grid_
             --> average_files (optional)
                 - txt_average_files_center_grid_
+            
+            --> winter_summer_files
+                --> winter
+                    --> average_files (optional)
+                        - txt_average_files_center_grid_
+                    --> txt_files (optional)
+                        - txt_files_center_grid_
+                --> summer
+                    --> average_files (optional)
+                        - txt_average_files_center_grid_
+                    --> txt_files (optional)
+                        - txt_files_center_grid_
+            --> specific_period
+                --> average_files (optional)
+                    - txt_average_files_center_grid_
+                --> txt_files (optional)
+                    - txt_files_center_grid_
+            --> monthly_files
+                --> 1
+                    --> average_files (optional)
+                        - txt_average_files_center_grid_
+                    --> txt_files (optional)
+                        - txt_files_center_grid_                
+                --> 2 
+                    --> average_files (optional)
+                        - txt_average_files_center_grid_
+                    --> txt_files (optional)
+                        - txt_files_center_grid_      
+                --> ...
 
-    --> final result   
+    --> final result
         - merge_annual_solar_energy
         - merge_annual_solar_energy_clip_municipality_extent
         - buildings_zonal_stats_solar
@@ -203,4 +286,80 @@ Structure of the output folder
                 - Energyyearroof
                 - Energyyearwall
                 - RunInfoSEBE
+        --> specific_period
+            - merge_annual_solar_energy
+            - merge_annual_solar_energy_clip_municipality_extent
+            - buildings_zonal_stats_solar
+            - irradiation_csv
+            - Distribution_irradiation
+            --> SEBE_simulation
+                --> SEBE_
+                    - roof_irradiance_
+                    - sky_irradiance_
+                    - dsm
+                    - Energyyearroof
+                    - Energyyearwall
+                    - RunInfoSEBE
+        --> summer
+            - merge_annual_solar_energy
+            - merge_annual_solar_energy_clip_municipality_extent
+            - buildings_zonal_stats_solar
+            - irradiation_csv
+            - Distribution_irradiation
+            --> SEBE_simulation
+                --> SEBE_
+                    - roof_irradiance_
+                    - sky_irradiance_
+                    - dsm
+                    - Energyyearroof
+                    - Energyyearwall
+                    - RunInfoSEBE
+        --> winter
+            - merge_annual_solar_energy
+            - merge_annual_solar_energy_clip_municipality_extent
+            - buildings_zonal_stats_solar
+            - irradiation_csv
+            - Distribution_irradiation
+            - municipality_and_solar_distribution_characteristics
+            --> SEBE_simulation
+                --> SEBE_
+                    - roof_irradiance_
+                    - sky_irradiance_
+                    - dsm
+                    - Energyyearroof
+                    - Energyyearwall
+                    - RunInfoSEBE
+        --> monthly_results
+            --> 1
+                - merge_annual_solar_energy
+                - merge_annual_solar_energy_clip_municipality_extent
+                - buildings_zonal_stats_solar
+                - irradiation_csv
+                - Distribution_irradiation
+                - municipality_and_solar_distribution_characteristics
+                --> SEBE_simulation
+                    --> SEBE_
+                        - roof_irradiance_
+                        - sky_irradiance_
+                        - dsm
+                        - Energyyearroof
+                        - Energyyearwall
+                        - RunInfoSEBE
+            --> 2
+                - merge_annual_solar_energy
+                - merge_annual_solar_energy_clip_municipality_extent
+                - buildings_zonal_stats_solar
+                - irradiation_csv
+                - Distribution_irradiation
+                - municipality_and_solar_distribution_characteristics
+                --> SEBE_simulation
+                    --> SEBE_
+                        - roof_irradiance_
+                        - sky_irradiance_
+                        - dsm
+                        - Energyyearroof
+                        - Energyyearwall
+                        - RunInfoSEBE
+            --> ...
+
 """

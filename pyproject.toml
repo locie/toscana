@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 authors = [{name="Apolline Ferry", email="apolline.ferry@laposte.net"}]
 name = "toscana"
-version = "0.1"
+version = "0.2"
 description = "toscana allows to run SEBE simulation at village scale to obtain building rooftop irradiation, using open-access database (BDTOPO, OpenDEM)"                        
 keywords = ["irradiation", "solar", "cadastre", "gis", "rooftop"]           
 readme = "README.md"

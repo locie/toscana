@@ -219,7 +219,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="toscana.solar_simulation.iterate_on_grid">
-<span class="sig-prename descclassname"><span class="pre">toscana.solar_simulation.</span></span><span class="sig-name descname"><span class="pre">iterate_on_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_save_sky_irradiance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">albedo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.solar_simulation.iterate_on_grid" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">toscana.solar_simulation.</span></span><span class="sig-name descname"><span class="pre">iterate_on_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_subfolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_save_sky_irradiance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">albedo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.solar_simulation.iterate_on_grid" title="Link to this definition">#</a></dt>
 <dd><p>Function used to iterate on the grid (run simulation for each grid tile) : the DSM, DHM and grid are clipped at the extent of one tile, wall aspects and wall heights are calculated and then SEBE simulation are run.</p>
 <p>SEBE calculation are not done for the tiles for which the meteorological files could not have been downloaded.
 The iteration starts with the first tile (by default) but can be changed by changing restart_tile.
@@ -233,6 +233,7 @@ The list of the tiles for which the SEBE calculation could not have been done (d
 <li><p><strong>path_clip_files</strong> (<em>path-like</em>) – path of the folder with temporary clip files (define in main function)</p></li>
 <li><p><strong>path_raster_files</strong> (<em>path-like</em>) – path of the folder with temporary raster files (define in main function)</p></li>
 <li><p><strong>path_meteorological_folder</strong> (<em>path-like</em>) – path of the folder where are saved all the meteorological files</p></li>
+<li><p><strong>path_meteorological_subfolder</strong> (<em>path-like</em>) – path of the subfolder where are saved the meteorological files for that simulation</p></li>
 <li><p><strong>path_csv_folder</strong> (<em>path-like</em>) – path of the folder with temporary csv files (define in main function)</p></li>
 <li><p><strong>wall_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – minimum difference of height to consider a pixel as a wall, by default 0.1</p></li>
 <li><p><strong>bool_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to calculate or not the diffuse and direct irradiance values from global irradiance values, by default True</p></li>
@@ -247,6 +248,42 @@ from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) 
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>AssertionError</strong> – restart_tile must be smaller than the number of grid tiles and higher than 1 (first tile)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.solar_simulation.launch_iterate_on_grid_per_month">
+<span class="sig-prename descclassname"><span class="pre">toscana.solar_simulation.</span></span><span class="sig-name descname"><span class="pre">launch_iterate_on_grid_per_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_save_sky_irradiance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_albedo_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">albedo_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.solar_simulation.launch_iterate_on_grid_per_month" title="Link to this definition">#</a></dt>
+<dd><p>Function used to iterate on the grid for several months.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_gpd</strong> (<em>GeoDataFrame</em>) – geopandas grid file</p></li>
+<li><p><strong>list_month</strong> (<em>list</em>) – list of the months that should be simulated</p></li>
+<li><p><strong>path_final_output_folder</strong> (<em>path-like</em>) – path of the folder where to save the final results (define in main function)</p></li>
+<li><p><strong>path_clip_files</strong> (<em>path-like</em>) – path of the folder with temporary clip files (define in main function)</p></li>
+<li><p><strong>path_raster_files</strong> (<em>path-like</em>) – path of the folder with temporary raster files (define in main function)</p></li>
+<li><p><strong>path_meteorological_folder</strong> (<em>path-like</em>) – path of the folder where are saved all the meteorological files</p></li>
+<li><p><strong>path_csv_folder</strong> (<em>path-like</em>) – path of the folder with temporary csv files (define in main function)</p></li>
+<li><p><strong>wall_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – minimum difference of height to consider a pixel as a wall, by default 0.1</p></li>
+<li><p><strong>bool_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to calculate or not the diffuse and direct irradiance values from global irradiance values, by default True</p></li>
+<li><p><strong>utc</strong> (<em>int</em><em>, </em><em>optional</em>) – value of utc time, by default 1
+from -12 to 12, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation</p></li>
+<li><p><strong>bool_save_sky_irradiance</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean to save or not the sky irradiance data, by default True</p></li>
+<li><p><strong>restart_tile</strong> (<em>int</em><em>, </em><em>optional</em>) – number of the first tile on which to run SEBE simulation (to change to start not from the beginning), by default 1</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to indicate if an average of the meteorological files was done or not, by default True</p></li>
+<li><p><strong>list_albedo_month</strong> (<em>list</em><em>, </em><em>optional</em>) – monthly value of the albedo, by default []
+from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation</p></li>
+<li><p><strong>albedo_m</strong> (<em>float</em><em>, </em><em>optional</em>) – average albedo value (for all the months) if monthly values are not defined, by default 0.15
+from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_month must be a list of int (or a list of strings with numbers)</p></li>
+<li><p><strong>AssertionError</strong> – value in list_month should be between 1 and 12</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -275,6 +312,8 @@ from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) 
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – albedo must be a float (or a string of numbers)</p></li>
+<li><p><strong>TypeError</strong> – uct must be a int (or a string of numbers)</p></li>
 <li><p><strong>AssertionError</strong> – albedo must be between 0 and 1</p></li>
 <li><p><strong>AssertionError</strong> – utc must be between -12 and 12</p></li>
 </ul>
@@ -344,6 +383,7 @@ from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) 
 <li><a class="reference internal" href="#module-toscana.solar_simulation">Module contents</a><ul>
 <li><a class="reference internal" href="#toscana.solar_simulation.calculate_wallheight_wallaspect"><code class="docutils literal notranslate"><span class="pre">calculate_wallheight_wallaspect()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.solar_simulation.iterate_on_grid"><code class="docutils literal notranslate"><span class="pre">iterate_on_grid()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.solar_simulation.launch_iterate_on_grid_per_month"><code class="docutils literal notranslate"><span class="pre">launch_iterate_on_grid_per_month()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.solar_simulation.run_SEBE_simulation"><code class="docutils literal notranslate"><span class="pre">run_SEBE_simulation()</span></code></a></li>
 </ul>
 </li>

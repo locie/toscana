@@ -236,6 +236,87 @@ The dataframe is then exported in a csv file.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="toscana.create_monthly_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">create_monthly_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.create_monthly_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain monthly meteorological files from annual meteorological files for given months. Subfolders to save the monthly weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>list_month</strong> (<em>list</em>) – list of the months for which monthly weather files will be generated</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – month must be a int (or a string of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – month must be between 1 and 12</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.create_period_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">create_period_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_folder_period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.create_period_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain meteorological files for a given period from annual meteorological files. Subfolders to save the new weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name_folder_period</strong> (<em>str</em>) – name of the folder where to save the meteorological files for the given period</p></li>
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>list_days</strong> (<em>list</em>) – list of the day numbers of the year included in the given period</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>path_period_weather_file</strong> – path of the folder with the created meteorological files for the given period</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_days must be a list of int (or a list of strings of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – day numbers must be between 1 and 365</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.create_winter_summer_month_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">create_winter_summer_month_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_winter_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_summer_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.create_winter_summer_month_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain meteorological files for two periods from annual meteorological files. One of the period should correspond to winter months, and is defined by default from January to March and from November to December. The second period should correspond to summer months, and is defined by default as all other months from the winter months. Subfolders to save the new weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>list_winter_month</strong> (<em>list</em><em>, </em><em>optional</em>) – list of the winter months, by default []</p></li>
+<li><p><strong>list_summer_month</strong> (<em>list</em><em>, </em><em>optional</em>) – list_of the summer months, by default []</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>path_folder_summer</strong> (<em>pathlib.Path</em>) – path of the folder with the created summer meteorological files</p></li>
+<li><p><strong>path_folder_winter</strong> (<em>pathlib.Path</em>) – path of the folder with the created winter meteorological files</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_winter_month and list_summer_month must be list of int (or list of strings of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – month must be between 1 and 12</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="toscana.display_results">
 <span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">display_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rectangle_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rectangle_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_johnsonsu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sol_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">statistics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution_irradiation.png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_histo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Distribution</span> <span class="pre">of</span> <span class="pre">average</span> <span class="pre">\nannual</span> <span class="pre">rooftop</span> <span class="pre">irradiation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">elevation&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_SEBE</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">average</span> <span class="pre">\nannual</span> <span class="pre">irradiation</span> <span class="pre">on</span> <span class="pre">surfaces&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_title_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&quot;Map</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">municipality's</span> <span class="pre">average</span> <span class="pre">annual</span> <span class="pre">rooftop\nirradiation</span> <span class="pre">per</span> <span class="pre">building&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Irradiation</span> <span class="pre">(kWh/m²)'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.display_results" title="Link to this definition">#</a></dt>
 <dd><p>Display the results : the resample DSM of the village, the raster with SEBE results, the shapefile with building footprints (with buffer) and their average annual irradiation on rooftops and the histogram with the average annual irradiation received by rooftops and the associated Johnson’s SU fitted distribution.</p>
@@ -340,7 +421,7 @@ If the studied territory is not located in France, <code class="docutils literal
 
 <dl class="py function">
 <dt class="sig sig-object py" id="toscana.iterate_on_grid">
-<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">iterate_on_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_save_sky_irradiance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">albedo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.iterate_on_grid" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">iterate_on_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_subfolder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_save_sky_irradiance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">albedo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.iterate_on_grid" title="Link to this definition">#</a></dt>
 <dd><p>Function used to iterate on the grid (run simulation for each grid tile) : the DSM, DHM and grid are clipped at the extent of one tile, wall aspects and wall heights are calculated and then SEBE simulation are run.</p>
 <p>SEBE calculation are not done for the tiles for which the meteorological files could not have been downloaded.
 The iteration starts with the first tile (by default) but can be changed by changing restart_tile.
@@ -354,6 +435,7 @@ The list of the tiles for which the SEBE calculation could not have been done (d
 <li><p><strong>path_clip_files</strong> (<em>path-like</em>) – path of the folder with temporary clip files (define in main function)</p></li>
 <li><p><strong>path_raster_files</strong> (<em>path-like</em>) – path of the folder with temporary raster files (define in main function)</p></li>
 <li><p><strong>path_meteorological_folder</strong> (<em>path-like</em>) – path of the folder where are saved all the meteorological files</p></li>
+<li><p><strong>path_meteorological_subfolder</strong> (<em>path-like</em>) – path of the subfolder where are saved the meteorological files for that simulation</p></li>
 <li><p><strong>path_csv_folder</strong> (<em>path-like</em>) – path of the folder with temporary csv files (define in main function)</p></li>
 <li><p><strong>wall_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – minimum difference of height to consider a pixel as a wall, by default 0.1</p></li>
 <li><p><strong>bool_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to calculate or not the diffuse and direct irradiance values from global irradiance values, by default True</p></li>
@@ -368,6 +450,42 @@ from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) 
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>AssertionError</strong> – restart_tile must be smaller than the number of grid tiles and higher than 1 (first tile)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.launch_iterate_on_grid_per_month">
+<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">launch_iterate_on_grid_per_month</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_gpd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_final_output_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_clip_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_raster_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_csv_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wall_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bool_save_sky_irradiance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_albedo_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">albedo_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.launch_iterate_on_grid_per_month" title="Link to this definition">#</a></dt>
+<dd><p>Function used to iterate on the grid for several months.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid_gpd</strong> (<em>GeoDataFrame</em>) – geopandas grid file</p></li>
+<li><p><strong>list_month</strong> (<em>list</em>) – list of the months that should be simulated</p></li>
+<li><p><strong>path_final_output_folder</strong> (<em>path-like</em>) – path of the folder where to save the final results (define in main function)</p></li>
+<li><p><strong>path_clip_files</strong> (<em>path-like</em>) – path of the folder with temporary clip files (define in main function)</p></li>
+<li><p><strong>path_raster_files</strong> (<em>path-like</em>) – path of the folder with temporary raster files (define in main function)</p></li>
+<li><p><strong>path_meteorological_folder</strong> (<em>path-like</em>) – path of the folder where are saved all the meteorological files</p></li>
+<li><p><strong>path_csv_folder</strong> (<em>path-like</em>) – path of the folder with temporary csv files (define in main function)</p></li>
+<li><p><strong>wall_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – minimum difference of height to consider a pixel as a wall, by default 0.1</p></li>
+<li><p><strong>bool_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to calculate or not the diffuse and direct irradiance values from global irradiance values, by default True</p></li>
+<li><p><strong>utc</strong> (<em>int</em><em>, </em><em>optional</em>) – value of utc time, by default 1
+from -12 to 12, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation</p></li>
+<li><p><strong>bool_save_sky_irradiance</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean to save or not the sky irradiance data, by default True</p></li>
+<li><p><strong>restart_tile</strong> (<em>int</em><em>, </em><em>optional</em>) – number of the first tile on which to run SEBE simulation (to change to start not from the beginning), by default 1</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to indicate if an average of the meteorological files was done or not, by default True</p></li>
+<li><p><strong>list_albedo_month</strong> (<em>list</em><em>, </em><em>optional</em>) – monthly value of the albedo, by default []
+from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation</p></li>
+<li><p><strong>albedo_m</strong> (<em>float</em><em>, </em><em>optional</em>) – average albedo value (for all the months) if monthly values are not defined, by default 0.15
+from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_month must be a list of int (or a list of strings with numbers)</p></li>
+<li><p><strong>AssertionError</strong> – value in list_month should be between 1 and 12</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -500,6 +618,28 @@ from 0 to 11, see gdal:warpreproject documentation</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.transform_days_into_period">
+<span class="sig-prename descclassname"><span class="pre">toscana.</span></span><span class="sig-name descname"><span class="pre">transform_days_into_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.transform_days_into_period" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a list with the day numbers of the year for a given period, defined with the date of the first day (day of the month and month of the year) and the date of the last day of the period (day of the month and month of the year).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_day</strong> (<em>int</em>) – day number of the month of the first day of the period</p></li>
+<li><p><strong>start_month</strong> (<em>int</em>) – month number of the year of the first day of the period</p></li>
+<li><p><strong>end_day</strong> (<em>int</em>) – day number of the month of the last day of the period</p></li>
+<li><p><strong>end_month</strong> (<em>int</em>) – month number of the year of the last day of the period</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>list_days</strong> – list with the day number of the year of all the days in the given period</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="all-features">
 <span id="id4"></span><h2>All features<a class="headerlink" href="#all-features" title="Link to this heading">#</a></h2>
@@ -524,7 +664,11 @@ from 0 to 11, see gdal:warpreproject documentation</p></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="source/toscana.data_pre_processing.html#module-toscana.data_pre_processing.meteorological_files">toscana.data_pre_processing.meteorological_files module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.meteorological_files.create_monthly_weather_file"><code class="docutils literal notranslate"><span class="pre">create_monthly_weather_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.meteorological_files.create_period_weather_file"><code class="docutils literal notranslate"><span class="pre">create_period_weather_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.meteorological_files.create_winter_summer_month_weather_file"><code class="docutils literal notranslate"><span class="pre">create_winter_summer_month_weather_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.meteorological_files.obtain_meteorological_files"><code class="docutils literal notranslate"><span class="pre">obtain_meteorological_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.meteorological_files.transform_days_into_period"><code class="docutils literal notranslate"><span class="pre">transform_days_into_period()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="source/toscana.data_pre_processing.html#module-toscana.data_pre_processing.raster_preprocessing">toscana.data_pre_processing.raster_preprocessing module</a><ul>
@@ -547,6 +691,9 @@ from 0 to 11, see gdal:warpreproject documentation</p></li>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="source/toscana.data_pre_processing.html#module-toscana.data_pre_processing">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.check_validity"><code class="docutils literal notranslate"><span class="pre">check_validity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.create_monthly_weather_file"><code class="docutils literal notranslate"><span class="pre">create_monthly_weather_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.create_period_weather_file"><code class="docutils literal notranslate"><span class="pre">create_period_weather_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.create_winter_summer_month_weather_file"><code class="docutils literal notranslate"><span class="pre">create_winter_summer_month_weather_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.define_grid"><code class="docutils literal notranslate"><span class="pre">define_grid()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.download_and_extract_BDTOPO_data"><code class="docutils literal notranslate"><span class="pre">download_and_extract_BDTOPO_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.download_extract_and_merge_DEM_from_OpenDEM"><code class="docutils literal notranslate"><span class="pre">download_extract_and_merge_DEM_from_OpenDEM()</span></code></a></li>
@@ -557,6 +704,7 @@ from 0 to 11, see gdal:warpreproject documentation</p></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.obtain_municipality_footprint"><code class="docutils literal notranslate"><span class="pre">obtain_municipality_footprint()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.preprocess_municipality_buildings"><code class="docutils literal notranslate"><span class="pre">preprocess_municipality_buildings()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.reproject_shapefiles_2154_to_IGNF"><code class="docutils literal notranslate"><span class="pre">reproject_shapefiles_2154_to_IGNF()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.data_pre_processing.html#toscana.data_pre_processing.transform_days_into_period"><code class="docutils literal notranslate"><span class="pre">transform_days_into_period()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -594,6 +742,7 @@ from 0 to 11, see gdal:warpreproject documentation</p></li>
 <li class="toctree-l2"><a class="reference internal" href="source/toscana.solar_simulation.html#module-toscana.solar_simulation">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.solar_simulation.html#toscana.solar_simulation.calculate_wallheight_wallaspect"><code class="docutils literal notranslate"><span class="pre">calculate_wallheight_wallaspect()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.solar_simulation.html#toscana.solar_simulation.iterate_on_grid"><code class="docutils literal notranslate"><span class="pre">iterate_on_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="source/toscana.solar_simulation.html#toscana.solar_simulation.launch_iterate_on_grid_per_month"><code class="docutils literal notranslate"><span class="pre">launch_iterate_on_grid_per_month()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="source/toscana.solar_simulation.html#toscana.solar_simulation.run_SEBE_simulation"><code class="docutils literal notranslate"><span class="pre">run_SEBE_simulation()</span></code></a></li>
 </ul>
 </li>
@@ -670,15 +819,20 @@ from 0 to 11, see gdal:warpreproject documentation</p></li>
 <li><a class="reference internal" href="#">Welcome to toscana’s documentation!</a><ul>
 <li><a class="reference internal" href="#module-contents">Module contents</a><ul>
 <li><a class="reference internal" href="#toscana.calculate_village_distribution_characteristics"><code class="docutils literal notranslate"><span class="pre">calculate_village_distribution_characteristics()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.create_monthly_weather_file"><code class="docutils literal notranslate"><span class="pre">create_monthly_weather_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.create_period_weather_file"><code class="docutils literal notranslate"><span class="pre">create_period_weather_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.create_winter_summer_month_weather_file"><code class="docutils literal notranslate"><span class="pre">create_winter_summer_month_weather_file()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.display_results"><code class="docutils literal notranslate"><span class="pre">display_results()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.download_and_extract_BDTOPO_data"><code class="docutils literal notranslate"><span class="pre">download_and_extract_BDTOPO_data()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.download_extract_and_merge_DEM_from_OpenDEM"><code class="docutils literal notranslate"><span class="pre">download_extract_and_merge_DEM_from_OpenDEM()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.iterate_on_grid"><code class="docutils literal notranslate"><span class="pre">iterate_on_grid()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.launch_iterate_on_grid_per_month"><code class="docutils literal notranslate"><span class="pre">launch_iterate_on_grid_per_month()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.obtain_grid"><code class="docutils literal notranslate"><span class="pre">obtain_grid()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.obtain_meteorological_files"><code class="docutils literal notranslate"><span class="pre">obtain_meteorological_files()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.post_process"><code class="docutils literal notranslate"><span class="pre">post_process()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.preprocess_municipality_buildings"><code class="docutils literal notranslate"><span class="pre">preprocess_municipality_buildings()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.preprocess_raster_file"><code class="docutils literal notranslate"><span class="pre">preprocess_raster_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.transform_days_into_period"><code class="docutils literal notranslate"><span class="pre">transform_days_into_period()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#all-features">All features</a></li>

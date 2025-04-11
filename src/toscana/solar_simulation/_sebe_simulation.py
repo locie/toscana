@@ -1,7 +1,6 @@
 import sys
 
 from ..utils import processing
-
 from tqdm import tqdm
 from ..utils import clip_raster
 from pathlib import Path
@@ -85,11 +84,28 @@ def run_SEBE_simulation(path_DSM_clip, path_wallheight_clip, path_wallaspect_cli
 
     Raises
     ------
+    TypeError
+        albedo must be a float (or a string of numbers)
+    TypeError
+        uct must be a int (or a string of numbers)
     AssertionError
         albedo must be between 0 and 1
     AssertionError
         utc must be between -12 and 12   
     """
+        
+    if isinstance(albedo,str): 
+        try : 
+            albedo = float(albedo)
+        except :
+            raise TypeError("albedo must be a float!")
+        
+    if isinstance(utc,str): 
+        try : 
+            utc = int(utc)
+        except :
+            raise TypeError("utc must be a int!")
+        
     if albedo <0 or albedo >1 : 
         raise AssertionError('Albedo must be between 0 and 1!')
     if utc<-12 or utc > 12: 
@@ -178,7 +194,7 @@ def _create_SEBE_folder(path_final_output_folder, j):
     return path_SEBE_temp
 
 
-def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_raster_files, path_meteorological_folder,path_csv_folder,  wall_limit=0.1, bool_global= True, utc=1, bool_save_sky_irradiance = True, albedo = 0.15, restart_tile = 1 , average = True):  
+def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_raster_files, path_meteorological_folder,path_csv_folder, path_meteorological_subfolder="", wall_limit=0.1, bool_global= True, utc=1, bool_save_sky_irradiance = True, albedo = 0.15, restart_tile = 1 , average = True):  
     """Function used to iterate on the grid (run simulation for each grid tile) : the DSM, DHM and grid are clipped at the extent of one tile, wall aspects and wall heights are calculated and then SEBE simulation are run.
     
     SEBE calculation are not done for the tiles for which the meteorological files could not have been downloaded. 
@@ -198,6 +214,8 @@ def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_ra
         path of the folder with temporary raster files (define in main function)
     path_meteorological_folder : path-like
         path of the folder where are saved all the meteorological files
+    path_meteorological_subfolder : path-like
+        path of the subfolder where are saved the meteorological files for that simulation
     path_csv_folder : path-like
         path of the folder with temporary csv files (define in main function)
     wall_limit : float, optional
@@ -234,11 +252,14 @@ def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_ra
     path_DSM = path_raster_files/ "DSM.tif"
     path_DHM = path_raster_files/ "DHM.tif"
 
+    if path_meteorological_subfolder=="":
+        path_meteorological_subfolder=path_meteorological_folder
+
     if average : 
-        path_average_folder = path_meteorological_folder/"average_files"
+        path_average_folder = path_meteorological_subfolder/"average_files"
         fn_average_files = "average_txt_files_center_grid_"
     else : 
-        path_average_folder = path_meteorological_folder/"txt_files"
+        path_average_folder = path_meteorological_subfolder/"txt_files"
         fn_average_files = "txt_files_center_grid_"
 
 
@@ -248,14 +269,18 @@ def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_ra
         j=i+1
         path_clip_DSM, path_clip_grid, path_clip_DHM, path_clip_wallheight, path_clip_wallaspect = _create_clip_folder(path_clip_files)
         path_clip_grid_temp = path_clip_grid / ("grid_temp"+str(j)+".shp")
-        _clip_grid(grid_gpd, j, path_clip_grid_temp)
+        if path_clip_grid_temp.exists()==False : 
+            _clip_grid(grid_gpd, j, path_clip_grid_temp)
         path_DSM_clip_temp = path_clip_DSM / ("DSM_clip_temp"+str(j)+".tif")
-        clip_raster(path_clip_grid_temp, path_DSM, path_DSM_clip_temp)
+        if path_DSM_clip_temp.exists()==False :     
+            clip_raster(path_clip_grid_temp, path_DSM, path_DSM_clip_temp)
         path_DHM_clip_temp = path_clip_DHM / ("DHM_clip_temp"+str(j)+".tif")
-        clip_raster(path_clip_grid_temp, path_DHM, path_DHM_clip_temp)
+        if path_DHM_clip_temp.exists()==False : 
+            clip_raster(path_clip_grid_temp, path_DHM, path_DHM_clip_temp)
         path_wallheight_clip_temp = path_clip_wallheight / ("wallheight_clip_temp"+str(j)+".tif")
         path_wallaspect_clip_temp = path_clip_wallaspect / ("wallaspect_clip_temp"+str(j)+".tif")
-        calculate_wallheight_wallaspect(path_DHM_clip_temp, path_wallheight_clip_temp, path_wallaspect_clip_temp,wall_limit=wall_limit)
+        if path_wallheight_clip_temp.exists()==False and path_wallaspect_clip_temp.exists()==False :
+            calculate_wallheight_wallaspect(path_DHM_clip_temp, path_wallheight_clip_temp, path_wallaspect_clip_temp,wall_limit=wall_limit)
         path_average_meteorological_file = path_average_folder / (fn_average_files + str(j) + ".txt")
         path_SEBE_temp_folder = _create_SEBE_folder(path_final_output_folder, j)
         path_sky_irradiance = path_SEBE_temp_folder / ("sky_irradiance_"+str(j)+".txt")
@@ -276,4 +301,89 @@ def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_ra
         df_list_tiles = DataFrame({'tile_number': list_incorrect_tiles, 'error': list_error})
         path_list_tiles = path_csv_folder / "list_incorrect_tiles.csv"
         df_list_tiles.to_csv(str(path_list_tiles), index=False)
+
+
+def launch_iterate_on_grid_per_month(grid_gpd,list_month, path_final_output_folder,path_clip_files,path_raster_files,path_meteorological_folder, path_csv_folder, wall_limit=0.1, bool_global=True, utc=1, bool_save_sky_irradiance=True,restart_tile=1, average=True, list_albedo_month=[], albedo_m=0.15):
+    """Function used to iterate on the grid for several months. 
+
+    Parameters
+    ----------  
+    grid_gpd : GeoDataFrame
+        geopandas grid file
+    list_month : list
+        list of the months that should be simulated
+    path_final_output_folder : path-like
+        path of the folder where to save the final results (define in main function)
+    path_clip_files : path-like
+        path of the folder with temporary clip files (define in main function)
+    path_raster_files : path-like
+        path of the folder with temporary raster files (define in main function)
+    path_meteorological_folder : path-like
+        path of the folder where are saved all the meteorological files
+    path_csv_folder : path-like
+        path of the folder with temporary csv files (define in main function)
+    wall_limit : float, optional
+        minimum difference of height to consider a pixel as a wall, by default 0.1
+    bool_global : bool, optional
+        boolean value to calculate or not the diffuse and direct irradiance values from global irradiance values, by default True
+    utc : int, optional
+        value of utc time, by default 1
+        from -12 to 12, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation
+    bool_save_sky_irradiance : bool, optional
+        boolean to save or not the sky irradiance data, by default True
+    restart_tile : int, optional
+        number of the first tile on which to run SEBE simulation (to change to start not from the beginning), by default 1
+    average : bool, optional
+        boolean value to indicate if an average of the meteorological files was done or not, by default True
+    list_albedo_month : list, optional
+        monthly value of the albedo, by default []
+        from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation
+    albedo_m : float, optional
+        average albedo value (for all the months) if monthly values are not defined, by default 0.15
+        from 0 to 1, see umep:Solar Radiation: Solar Energy of Builing Envelopes (SEBE) documentation
+
+    Raises
+    ------
+    TypeError
+        list_month must be a list of int (or a list of strings with numbers)
+    AssertionError
+        value in list_month should be between 1 and 12    
+    """    
+
+    if list_albedo_month == [] : 
+        for m in list_month : 
+            list_albedo_month.append(albedo_m)
+    m=0
+    for month_selected in list_month: 
+        if isinstance(month_selected,str): 
+            try : 
+                month_selected = int(month_selected)
+            except :
+                raise TypeError("list_month must be a list of int!")
+    
+        if month_selected <1 or month_selected >12 : 
+            raise AssertionError("Month must be between 1 and 12!")
+
+        albedo = list_albedo_month[m]
+        m=m+1
+        path_monthly_final_output_folder = path_final_output_folder /"monthly_results"
+        path_monthly_final_output_folder.mkdir(exist_ok=True)
+
+        path_monthly_results = path_monthly_final_output_folder/f"{month_selected}"
+        path_monthly_results.mkdir(exist_ok=True)
+
+        
+        path_csv_files_monthly = path_csv_folder/"monthly_files"
+        path_csv_files_monthly.mkdir(exist_ok=True)
+
+        path_month_csv = path_csv_files_monthly/f"{month_selected}"
+        path_month_csv.mkdir(exist_ok=True)
+
+        path_meteorological_subfolder = path_meteorological_folder/f"monthly_files/{month_selected}"
+
+
+        iterate_on_grid(grid_gpd=grid_gpd, path_final_output_folder = path_monthly_results, path_clip_files=path_clip_files, path_raster_files=path_raster_files, path_meteorological_folder=path_meteorological_folder, path_csv_folder=path_month_csv, path_meteorological_subfolder=path_meteorological_subfolder , wall_limit=wall_limit, bool_global = bool_global, utc= utc, bool_save_sky_irradiance=bool_save_sky_irradiance, albedo=albedo, average=average)
+
+
+
 

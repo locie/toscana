@@ -280,6 +280,87 @@
 <section id="module-toscana.data_pre_processing.meteorological_files">
 <span id="toscana-data-pre-processing-meteorological-files-module"></span><h2>toscana.data_pre_processing.meteorological_files module<a class="headerlink" href="#module-toscana.data_pre_processing.meteorological_files" title="Link to this heading">#</a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.meteorological_files.create_monthly_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.meteorological_files.</span></span><span class="sig-name descname"><span class="pre">create_monthly_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.meteorological_files.create_monthly_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain monthly meteorological files from annual meteorological files for given months. Subfolders to save the monthly weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>list_month</strong> (<em>list</em>) – list of the months for which monthly weather files will be generated</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – month must be a int (or a string of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – month must be between 1 and 12</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.meteorological_files.create_period_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.meteorological_files.</span></span><span class="sig-name descname"><span class="pre">create_period_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_folder_period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.meteorological_files.create_period_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain meteorological files for a given period from annual meteorological files. Subfolders to save the new weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name_folder_period</strong> (<em>str</em>) – name of the folder where to save the meteorological files for the given period</p></li>
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>list_days</strong> (<em>list</em>) – list of the day numbers of the year included in the given period</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>path_period_weather_file</strong> – path of the folder with the created meteorological files for the given period</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_days must be a list of int (or a list of strings of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – day numbers must be between 1 and 365</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.meteorological_files.create_winter_summer_month_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.meteorological_files.</span></span><span class="sig-name descname"><span class="pre">create_winter_summer_month_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_winter_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_summer_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.meteorological_files.create_winter_summer_month_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain meteorological files for two periods from annual meteorological files. One of the period should correspond to winter months, and is defined by default from January to March and from November to December. The second period should correspond to summer months, and is defined by default as all other months from the winter months. Subfolders to save the new weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>list_winter_month</strong> (<em>list</em><em>, </em><em>optional</em>) – list of the winter months, by default []</p></li>
+<li><p><strong>list_summer_month</strong> (<em>list</em><em>, </em><em>optional</em>) – list_of the summer months, by default []</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>path_folder_summer</strong> (<em>pathlib.Path</em>) – path of the folder with the created summer meteorological files</p></li>
+<li><p><strong>path_folder_winter</strong> (<em>pathlib.Path</em>) – path of the folder with the created winter meteorological files</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_winter_month and list_summer_month must be list of int (or list of strings of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – month must be between 1 and 12</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="toscana.data_pre_processing.meteorological_files.obtain_meteorological_files">
 <span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.meteorological_files.</span></span><span class="sig-name descname"><span class="pre">obtain_meteorological_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_shapefiles</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_temp_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option_no_average_if_one_problem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option_no_average_for_the_error_tile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_tests</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.meteorological_files.obtain_meteorological_files" title="Link to this definition">#</a></dt>
 <dd><p>Obtain the meteorological files needed to run the SEBE simulations.</p>
@@ -301,6 +382,28 @@ If there is some meteorological files that could not be downloaded, the average 
 <li><p><strong>option_no_average_for_the_error_tile</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to don’t average the meteorological file if there is one problem for the studied tile or one of the neighbouring tile of the studied tile, by default False</p></li>
 <li><p><strong>nb_tests</strong> (<em>int</em><em>, </em><em>optional</em>) – number of time to test downloading the meteorological file if there is a connection problem, by default 5</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.meteorological_files.transform_days_into_period">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.meteorological_files.</span></span><span class="sig-name descname"><span class="pre">transform_days_into_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.meteorological_files.transform_days_into_period" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a list with the day numbers of the year for a given period, defined with the date of the first day (day of the month and month of the year) and the date of the last day of the period (day of the month and month of the year).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_day</strong> (<em>int</em>) – day number of the month of the first day of the period</p></li>
+<li><p><strong>start_month</strong> (<em>int</em>) – month number of the year of the first day of the period</p></li>
+<li><p><strong>end_day</strong> (<em>int</em>) – day number of the month of the last day of the period</p></li>
+<li><p><strong>end_month</strong> (<em>int</em>) – month number of the year of the last day of the period</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>list_days</strong> – list with the day number of the year of all the days in the given period</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -569,6 +672,87 @@ Invalid features are also removed.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.create_monthly_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.</span></span><span class="sig-name descname"><span class="pre">create_monthly_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.create_monthly_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain monthly meteorological files from annual meteorological files for given months. Subfolders to save the monthly weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>list_month</strong> (<em>list</em>) – list of the months for which monthly weather files will be generated</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – month must be a int (or a string of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – month must be between 1 and 12</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.create_period_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.</span></span><span class="sig-name descname"><span class="pre">create_period_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_folder_period</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_days</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.create_period_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain meteorological files for a given period from annual meteorological files. Subfolders to save the new weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name_folder_period</strong> (<em>str</em>) – name of the folder where to save the meteorological files for the given period</p></li>
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>list_days</strong> (<em>list</em>) – list of the day numbers of the year included in the given period</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>path_period_weather_file</strong> – path of the folder with the created meteorological files for the given period</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_days must be a list of int (or a list of strings of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – day numbers must be between 1 and 365</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.create_winter_summer_month_weather_file">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.</span></span><span class="sig-name descname"><span class="pre">create_winter_summer_month_weather_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_meteorological_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_gdf_centroid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_winter_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_summer_month</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.create_winter_summer_month_weather_file" title="Link to this definition">#</a></dt>
+<dd><p>Obtain meteorological files for two periods from annual meteorological files. One of the period should correspond to winter months, and is defined by default from January to March and from November to December. The second period should correspond to summer months, and is defined by default as all other months from the winter months. Subfolders to save the new weather files are created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_meteorological_folder</strong> (<em>pathlib.Path</em>) – path of the folder where ared saved the initial meteorological files</p></li>
+<li><p><strong>path_gdf_centroid</strong> (<em>pathlib.Path</em>) – path of the geopandas file with the centroid of the actual grid (obtained in <cite>create_centroid</cite>)</p></li>
+<li><p><strong>list_winter_month</strong> (<em>list</em><em>, </em><em>optional</em>) – list of the winter months, by default []</p></li>
+<li><p><strong>list_summer_month</strong> (<em>list</em><em>, </em><em>optional</em>) – list_of the summer months, by default []</p></li>
+<li><p><strong>average</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean value to do or not an average of the meteorological files, by default True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>path_folder_summer</strong> (<em>pathlib.Path</em>) – path of the folder with the created summer meteorological files</p></li>
+<li><p><strong>path_folder_winter</strong> (<em>pathlib.Path</em>) – path of the folder with the created winter meteorological files</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>TypeError</strong> – list_winter_month and list_summer_month must be list of int (or list of strings of numbers)</p></li>
+<li><p><strong>AssertionError</strong> – month must be between 1 and 12</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="toscana.data_pre_processing.define_grid">
 <span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.</span></span><span class="sig-name descname"><span class="pre">define_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extent_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'IGNF:ETRS89LAEA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">horizontal_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertical_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.define_grid" title="Link to this definition">#</a></dt>
 <dd><p>Obtain the grid that will be used for the simulation.</p>
@@ -779,6 +963,28 @@ Invalid features are also removed.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="toscana.data_pre_processing.transform_days_into_period">
+<span class="sig-prename descclassname"><span class="pre">toscana.data_pre_processing.</span></span><span class="sig-name descname"><span class="pre">transform_days_into_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_month</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_month</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#toscana.data_pre_processing.transform_days_into_period" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a list with the day numbers of the year for a given period, defined with the date of the first day (day of the month and month of the year) and the date of the last day of the period (day of the month and month of the year).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_day</strong> (<em>int</em>) – day number of the month of the first day of the period</p></li>
+<li><p><strong>start_month</strong> (<em>int</em>) – month number of the year of the first day of the period</p></li>
+<li><p><strong>end_day</strong> (<em>int</em>) – day number of the month of the last day of the period</p></li>
+<li><p><strong>end_month</strong> (<em>int</em>) – month number of the year of the last day of the period</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>list_days</strong> – list with the day number of the year of all the days in the given period</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -846,7 +1052,11 @@ Invalid features are also removed.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-toscana.data_pre_processing.meteorological_files">toscana.data_pre_processing.meteorological_files module</a><ul>
+<li><a class="reference internal" href="#toscana.data_pre_processing.meteorological_files.create_monthly_weather_file"><code class="docutils literal notranslate"><span class="pre">create_monthly_weather_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.meteorological_files.create_period_weather_file"><code class="docutils literal notranslate"><span class="pre">create_period_weather_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.meteorological_files.create_winter_summer_month_weather_file"><code class="docutils literal notranslate"><span class="pre">create_winter_summer_month_weather_file()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.data_pre_processing.meteorological_files.obtain_meteorological_files"><code class="docutils literal notranslate"><span class="pre">obtain_meteorological_files()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.meteorological_files.transform_days_into_period"><code class="docutils literal notranslate"><span class="pre">transform_days_into_period()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-toscana.data_pre_processing.raster_preprocessing">toscana.data_pre_processing.raster_preprocessing module</a><ul>
@@ -869,6 +1079,9 @@ Invalid features are also removed.</p>
 </li>
 <li><a class="reference internal" href="#module-toscana.data_pre_processing">Module contents</a><ul>
 <li><a class="reference internal" href="#toscana.data_pre_processing.check_validity"><code class="docutils literal notranslate"><span class="pre">check_validity()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.create_monthly_weather_file"><code class="docutils literal notranslate"><span class="pre">create_monthly_weather_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.create_period_weather_file"><code class="docutils literal notranslate"><span class="pre">create_period_weather_file()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.create_winter_summer_month_weather_file"><code class="docutils literal notranslate"><span class="pre">create_winter_summer_month_weather_file()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.data_pre_processing.define_grid"><code class="docutils literal notranslate"><span class="pre">define_grid()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.data_pre_processing.download_and_extract_BDTOPO_data"><code class="docutils literal notranslate"><span class="pre">download_and_extract_BDTOPO_data()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.data_pre_processing.download_extract_and_merge_DEM_from_OpenDEM"><code class="docutils literal notranslate"><span class="pre">download_extract_and_merge_DEM_from_OpenDEM()</span></code></a></li>
@@ -879,6 +1092,7 @@ Invalid features are also removed.</p>
 <li><a class="reference internal" href="#toscana.data_pre_processing.obtain_municipality_footprint"><code class="docutils literal notranslate"><span class="pre">obtain_municipality_footprint()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.data_pre_processing.preprocess_municipality_buildings"><code class="docutils literal notranslate"><span class="pre">preprocess_municipality_buildings()</span></code></a></li>
 <li><a class="reference internal" href="#toscana.data_pre_processing.reproject_shapefiles_2154_to_IGNF"><code class="docutils literal notranslate"><span class="pre">reproject_shapefiles_2154_to_IGNF()</span></code></a></li>
+<li><a class="reference internal" href="#toscana.data_pre_processing.transform_days_into_period"><code class="docutils literal notranslate"><span class="pre">transform_days_into_period()</span></code></a></li>
 </ul>
 </li>
 </ul>
