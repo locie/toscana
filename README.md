@@ -111,8 +111,8 @@ Below is a small code snippet that would set up a proper conda environment:
 ```
 conda create -n toscana_env python=3.10
 conda activate toscana_env
-conda install -y conda-forge::qgis=3.34 conda-forge::pvlib conda-forge::matplotlib-scalebar
-conda install -y rasterio matplotlib tqdm scipy scikit-learn shapely geopandas pandas 
+conda install -y conda-forge::qgis=3.34 conda-forge::pvlib conda-forge::matplotlib-scalebar conda-forge::jaydebeapi=1.2.3
+conda install -y rasterio matplotlib tqdm scipy scikit-learn shapely geopandas pandas fiona
 
 ```
 

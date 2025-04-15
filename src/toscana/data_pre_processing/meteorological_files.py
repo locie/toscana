@@ -199,7 +199,10 @@ def _create_modified_grid_centroid(gdf_centroid_grid, path_centroid_grid_modifie
         gdf_3.loc[i, "ID_12"] = gdf_3['ID'].loc[gdf_3['geometry'] == gdf_1.loc[i, 'Point_12']].values
 
     gdf_3= gdf_3.set_geometry('geometry', crs =projection)
-    gdf_3.to_file(str(path_centroid_grid_modified), driver='ESRI Shapefile', crs=projection)
+    try : 
+        gdf_3.to_file(str(path_centroid_grid_modified), driver='ESRI Shapefile', crs=projection)
+    except : 
+        gdf_3.to_file(str(path_centroid_grid_modified), driver='ESRI Shapefile', crs=projection, engine='fiona')
     df_centroid_modified = create_csv_coordinates(path_centroid_grid_modified, path_centroid_grid_modified_coordinates, path_centroid_grid_modified_csv )
     return df_centroid_modified
 

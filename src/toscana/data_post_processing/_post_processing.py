@@ -4,6 +4,9 @@ from geopandas import read_file
 from ..solar_simulation._sebe_simulation import _create_SEBE_folder
 from ..utils import clip_raster, zonal_statistics
 from rasterio import open
+import subprocess
+from ..utils._utils import script_path
+from pathlib import Path
 
 """ POST PROCESSING """
 def _verify_SEBE_results(path_merge_SEBE_raster, average = True, bool_global = True):
@@ -48,16 +51,32 @@ def merge_raster(list, path_merge_raster):
     path_merge_raster : pathlib.Path
         path where to save the merge raster layer
     """
-    processing.run("gdal:merge",\
-    {'INPUT':list,\
-    'PCT':False,\
-    'SEPARATE':False,\
-    'NODATA_INPUT':None,\
-    'NODATA_OUTPUT':None,\
-    'OPTIONS':'',\
-    'EXTRA':'',\
-    'DATA_TYPE':5,\
-    'OUTPUT':str(path_merge_raster)})
+
+    try :    
+        processing.run("gdal:merge",\
+        {'INPUT':list,\
+        'PCT':False,\
+        'SEPARATE':False,\
+        'NODATA_INPUT':None,\
+        'NODATA_OUTPUT':None,\
+        'OPTIONS':'',\
+        'EXTRA':'',\
+        'DATA_TYPE':5,\
+        'OUTPUT':str(path_merge_raster)})
+
+    except : 
+        path_gdal_merge = Path(script_path) / "gdal_merge.py"
+        print(path_gdal_merge)
+        subprocess.run([
+            "python",
+            str(path_gdal_merge),
+            "-o", str(path_merge_raster),
+            "-of", "GTiff",
+            "-n", "0", 
+            "-a_nodata", "0", 
+            *list
+        ], check=True)
+
 
 def merge_SEBE_raster(grid_gdp, path_merge_SEBE_raster, path_final_output_folder, path_csv_folder, average = True, bool_global = True): 
     """Merge the raster files obtained from the SEBE simulation.

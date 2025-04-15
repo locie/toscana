@@ -9,6 +9,9 @@ from qgis.core import QgsVectorLayer, QgsRasterLayer, QgsCoordinateReferenceSyst
 from requests import get
 from zipfile import ZipFile
 from ..data_post_processing import merge_raster
+import subprocess
+from ..utils._utils import script_path
+from pathlib import Path
 
 
 
@@ -416,17 +419,27 @@ def create_DHM(path_resample_DEM, path_buildings_sup_0, large_extent_grid, path_
     height_column : str, optional
         column name with the height of buildings, by default "HAUTEUR"
     """
-    processing.run("gdal:rastercalculator",\
-    {'INPUT_A':str(path_resample_DEM),\
-    'BAND_A':1,\
-    'FORMULA':'A*0.0',\
-    'NO_DATA':None,\
-    'EXTENT_OPT':0,\
-    'PROJWIN':None,\
-    'RTYPE':5,\
-    'OPTIONS':'',\
-    'EXTRA':'',\
-    'OUTPUT':str(path_DHM_temp_1)})
+    try : 
+        processing.run("gdal:rastercalculator",\
+        {'INPUT_A':str(path_resample_DEM),\
+        'BAND_A':1,\
+        'FORMULA':'A*0.0',\
+        'NO_DATA':None,\
+        'EXTENT_OPT':0,\
+        'PROJWIN':None,\
+        'RTYPE':5,\
+        'OPTIONS':'',\
+        'EXTRA':'',\
+        'OUTPUT':str(path_DHM_temp_1)})
+    except : 
+        path_gdal_calc = Path(script_path) / "gdal_calc.py"
+        subprocess.run([
+        "python", str(path_gdal_calc),
+        "-A", str(path_resample_DEM),
+        "--A_band=1",
+        f"--outfile={str(path_DHM_temp_1)}",
+        "--calc=A*0.0"
+        ])
 
     processing.run("umep:Spatial Data: DSM Generator", \
     {'INPUT_DEM':str(path_DHM_temp_1),\

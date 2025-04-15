@@ -13,7 +13,11 @@ import sys
 from os import environ
 from platform import system
 
-HOME = environ['HOME']
+if system()== "Windows":
+    HOME = environ.get("USERPROFILE")
+else:
+    HOME = environ['HOME']
+
 system_ = system()
 file_exists = False
 try:
@@ -30,6 +34,16 @@ except BaseException as e:
         f.write(plugin_path)
 
 sys.path.append(plugin_path)
+
+
+if system_ == 'Windows':
+    script_path = rf'{HOME}\AppData\Local\anaconda3\envs\toscana_env\Scripts'
+else: # Linux-like
+    script_path = rf'{HOME}/anaconda3/envs/gis/bin'
+
+sys.path.append(script_path)
+
+
 try:
     from processing_umep.processing_umep_provider import ProcessingUMEPProvider ## this line display Warnings ##
 except ModuleNotFoundError as e:

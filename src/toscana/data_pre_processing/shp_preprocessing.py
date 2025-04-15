@@ -1,7 +1,7 @@
 """module to pre-process shapefiles"""
 from geopandas import read_file
 from requests import get
-from py7zr import unpack_7zarchive
+from py7zr import unpack_7zarchive, SevenZipFile
 from ..utils import processing
 from qgis.core import QgsCoordinateReferenceSystem, QgsProcessingException
 
@@ -47,9 +47,26 @@ def download_and_extract_BDTOPO_data(departement, path_raw_data_folder):
         f.write(response.content)
     print("Download completed.")
 
-    path_unpacked_download_folder = path_raw_data_folder/ f"BDTOPO_D0{departement}_2023-12-15"
-    with open(str(path_packed_download_folder), 'rb') as f:
-        unpack_7zarchive(f, str(path_unpacked_download_folder))
+    path_unpacked_download_folder = path_raw_data_folder/ f"BDTOPO_D0{departement}_2023-12-15.7z"
+    prefix_commune = f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/ADMINISTRATIF/"
+    prefix_bati = f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/BATI/"
+
+    try : 
+        with SevenZipFile(path_unpacked_download_folder, mode='r') as archive:
+            archive_files = archive.getnames()        
+            
+            files_in_commune = [f for f in archive_files if f.startswith(prefix_commune)]
+            if files_in_commune: 
+                archive.extract(targets=files_in_commune, path=path_raw_data_folder)
+        with SevenZipFile(path_unpacked_download_folder, mode='r') as archive:
+            archive_files = archive.getnames() 
+            files_in_bati = [f for f in archive_files if f.startswith(prefix_bati)]
+            if files_in_bati:
+                archive.extract(targets=files_in_bati, path=path_raw_data_folder)
+    except: 
+        path_unpacked_download_folder = path_raw_data_folder/ f"BDTOPO_D0{departement}_2023-12-15"
+        with open(str(path_packed_download_folder), 'rb') as f:
+            unpack_7zarchive(f, str(path_unpacked_download_folder))
     print("Extraction completed.")
 
     path_departement_municipalities_footprint = path_unpacked_download_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/ADMINISTRATIF/COMMUNE.shp"
