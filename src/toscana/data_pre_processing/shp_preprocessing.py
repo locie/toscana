@@ -69,8 +69,8 @@ def download_and_extract_BDTOPO_data(departement, path_raw_data_folder):
             unpack_7zarchive(f, str(path_unpacked_download_folder))
     print("Extraction completed.")
 
-    path_departement_municipalities_footprint = path_unpacked_download_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/ADMINISTRATIF/COMMUNE.shp"
-    path_input_departement_building =  path_unpacked_download_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/BATI/BATIMENT.shp"
+    path_departement_municipalities_footprint = path_packed_download_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/ADMINISTRATIF/COMMUNE.shp"
+    path_input_departement_building =  path_packed_download_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/BATI/BATIMENT.shp"
 
     return path_departement_municipalities_footprint, path_input_departement_building
 
