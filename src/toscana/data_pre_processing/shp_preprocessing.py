@@ -40,12 +40,12 @@ def download_and_extract_BDTOPO_data(departement, path_raw_data_folder):
       
     link = f"https://data.geopf.fr/telechargement/download/BDTOPO/BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15.7z"
     path_packed_download_folder = path_raw_data_folder / f"BDTOPO_D0{departement}_2023-12-15.7z"
-    print(f"Download from : {link}")
+    print(f"Download BDTOPO data from : {link}")
     response = get(link)
     
     with open(str(path_packed_download_folder), 'wb') as f:
         f.write(response.content)
-    print("Download completed.")
+    print("Download BDTOPO data completed.")
 
     path_unpacked_download_folder = path_raw_data_folder/ f"BDTOPO_D0{departement}_2023-12-15.7z"
     prefix_commune = f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/ADMINISTRATIF/"
@@ -67,7 +67,7 @@ def download_and_extract_BDTOPO_data(departement, path_raw_data_folder):
         path_unpacked_download_folder = path_raw_data_folder/ f"BDTOPO_D0{departement}_2023-12-15"
         with open(str(path_packed_download_folder), 'rb') as f:
             unpack_7zarchive(f, str(path_unpacked_download_folder))
-    print("Extraction completed.")
+    print("Extraction BDTOPO data completed.")
 
     path_departement_municipalities_footprint = path_raw_data_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/ADMINISTRATIF/COMMUNE.shp"
     path_input_departement_building =  path_raw_data_folder / f"BDTOPO_3-3_TOUSTHEMES_SHP_LAMB93_D0{departement}_2023-12-15/BDTOPO/1_DONNEES_LIVRAISON_2023-12-00099/BDT_3-3_SHP_LAMB93_D0{departement}-ED2023-12-15/BATI/BATIMENT.shp"
@@ -93,6 +93,8 @@ def obtain_municipality_footprint(path_departement_municipalities_footprint, pat
     {'INPUT':str(path_departement_municipalities_footprint),\
     'EXPRESSION':expression,\
     'OUTPUT':str(path_output_municipality_footprint)})
+
+    print("Obtention of the municipality footprint completed.")
 
 def reproject_shapefiles_2154_to_IGNF(path_shapefiles_2154, path_shapefiles_IGNF ): 
     """Reproject shapefiles from EPSG 2154 reference system into IGNF : ETRS89LAEA reference system.
@@ -126,7 +128,7 @@ def obtain_municipality_buildings(path_input_departement_building, path_input_mu
     {'INPUT':str(path_input_departement_building),\
     'OVERLAY':str(path_input_municipality_footprint),\
     'OUTPUT':str(path_municipality_buildings)})
-
+    print("Obtention of municipality buildings completed.")
 
 def check_validity(path_input_shapefiles, path_valid_shapefiles): 
     """Verify the validity of buildings footprints (remove invalid features).
@@ -178,5 +180,6 @@ def preprocess_municipality_buildings(path_shapefiles, path_municipalities_dep, 
     reproject_shapefiles_2154_to_IGNF(path_municipality_buildings,path_municipality_buildings_reproject)
     path_municipality_buildings_reproject_valid = path_shapefiles / "municipality_buildings_reproject_valid.shp"
     check_validity(path_municipality_buildings_reproject, path_municipality_buildings_reproject_valid)
+    print("Pre-processing of the shapefiles completed.")
 
 

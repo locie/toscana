@@ -56,7 +56,7 @@ def _create_grid_download_dem(path_raw_data_folder, bool_France = True):
     return grid_dem
 
 def _download_and_extract_data_DEM(link, dem_tile, path_raw_data_folder): 
-    """Download a DEM raster tile from OpenDEM website giving a link and the name of the time.
+    """Download a DEM raster tile from OpenDEM website giving a link and the name of the tile.
 
     A packed folder is downloaded and then extracted.
 
@@ -72,15 +72,15 @@ def _download_and_extract_data_DEM(link, dem_tile, path_raw_data_folder):
     fn_packed_download_folder = dem_tile + ".zip"
     path_packed_download_folder = path_raw_data_folder / fn_packed_download_folder
 
-    print(f"Download from : {link}")
+    print(f"Download DEM data {dem_tile} from : {link}")
     response = get(link)
     
     with open(str(path_packed_download_folder), 'wb') as f:
         f.write(response.content)
-    print("Download completed.")
+    print(f"Download DEM data {dem_tile} completed.")
     with ZipFile(path_packed_download_folder, 'r') as zip_ref:
         zip_ref.extractall(path_raw_data_folder)
-    print("Extraction completed.")
+    print(f"Extraction DEM data {dem_tile} completed.")
 
 def download_extract_and_merge_DEM_from_OpenDEM(path_raw_data_folder,path_shapefiles, bool_France = True, threshold = 100): 
     """Download and extract the DEM raster tile from the OpenDEM website according to the municipality footprint extent.
@@ -220,6 +220,7 @@ def download_extract_and_merge_DEM_from_OpenDEM(path_raw_data_folder,path_shapef
 
     path_merge_dem = path_raw_data_folder /"raw_merge_DEM.tif"
     merge_raster(list_dem, path_merge_dem)
+    print("Merge DEM data completed.")
     
     return path_merge_dem
 
@@ -280,6 +281,7 @@ def _clip_DEM_large(path_intput_DEM, large_extent_grid, path_clip_large_DEM):
     'DATA_TYPE':0,\
     'EXTRA':'',\
     'OUTPUT':str(path_clip_large_DEM)})
+    print("Clip DEM completed.")
 
 def resample_DEM(path_clip_large_DEM, path_resample_DEM, large_extent_grid, resample_method=1, resample_resolution=1): 
     """Resample the original DEM to obtain a DEM of 1m resolution (default), default option is bilinear resample.
@@ -320,6 +322,7 @@ def resample_DEM(path_clip_large_DEM, path_resample_DEM, large_extent_grid, resa
     'MULTITHREADING':False,\
     'EXTRA':'',\
     'OUTPUT':str(path_resample_DEM)})
+    print("Resampling DEM completed.")
 
 def select_buildings_height_sup_0(path_reproject_municipality_buildings, path_buildings_sup_0, height_column = "HAUTEUR"): 
     """Select only buildings with a height above 0 (necessary to create DSM).
@@ -339,6 +342,7 @@ def select_buildings_height_sup_0(path_reproject_municipality_buildings, path_bu
     {'INPUT':str(path_reproject_municipality_buildings),\
     'EXPRESSION':f' "{height_column}" >0',\
     'OUTPUT':str(path_buildings_sup_0)})
+    print("Selection buildings with height superior to 0 completed.")
 
 def _fill_nodata(path_raster_with_nodata, path_filled_raster, value = 0.0 ): 
     """Fill raster with no data with a defined ``value`` (default is 0).
@@ -392,6 +396,7 @@ def create_DSM(path_resample_DEM, path_buildings_sup_0, large_extent_grid, path_
     'OUTPUT_DSM':str(path_DSM_temp)})
 
     _fill_nodata(path_DSM_temp, path_DSM)
+    print("Creation DSM completed.")
 
 def create_DHM(path_resample_DEM, path_buildings_sup_0, large_extent_grid, path_DHM_temp_1, path_DHM_temp_2, path_DHM, pixel_resolution=1, height_column = "HAUTEUR"): 
     """Create the DHM (only building height above ground level) with a resolution of 1m (default).
@@ -452,6 +457,8 @@ def create_DHM(path_resample_DEM, path_buildings_sup_0, large_extent_grid, path_
     'OUTPUT_DSM':str(path_DHM_temp_2)})
     
     _fill_nodata(path_DHM_temp_2, path_DHM)
+
+    print("Creation DHM completed.")
 
 def preprocess_raster_file(path_raster_files, path_shapefiles, path_DEM, projection = 'IGNF:ETRS89LAEA',extra_size = 1000, resample_method=1,height_column = "HAUTEUR",  pixel_resolution=1): 
     """Preprocess and create the raster files that are needed for the SEBE simulation.
@@ -556,6 +563,7 @@ def preprocess_raster_file(path_raster_files, path_shapefiles, path_DEM, project
     path_DHM_temp_2 = path_raster_files / "DHM_temp_2.tif"
     path_DHM = path_raster_files / "DHM.tif"
     create_DHM(path_DEM_resample, path_municipality_buildings_reproject_valid_sup_0, large_extent_grid, path_DHM_temp_1, path_DHM_temp_2, path_DHM, pixel_resolution=pixel_resolution, height_column=height_column)
+    print("Pre-processing of the raster files completed.")
 
  
 

@@ -136,7 +136,7 @@ def create_csv_coordinates(path_shapefile, path_shapefile_coordinates, path_csv_
     'DATASOURCE_OPTIONS':'',\
     'LAYER_OPTIONS':''})
 
-    df_points = read_csv(str(path_csv_file))
+    df_points = read_csv(str(path_csv_file), encoding ="latin1")
     return df_points
 
 def clip_raster(path_mask_shapefiles, path_input_raster, path_clip_raster):

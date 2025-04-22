@@ -566,6 +566,11 @@ def obtain_meteorological_files(path_meteorological_folder, path_shapefiles, sav
         else : 
             path_txt_folder = _create_folder_meteorological_files(path_meteorological_folder, average= False, temp=False)
             _obtain_meteorological_files_no_average(df_centroid_grid, path_txt_folder, path_meteorological_folder,  temp = False, nb_tests= nb_tests)
+    
+    print("Obtention meteorological files completed.")
+
+
+
 
 def _obtain_average_meteorogical_files_no_temp(df_centroid_modified, gdf_centroid, path_average_folder, path_meteorological_folder, option_no_average_if_one_problem = False, option_no_average_for_the_error_tile = False, nb_tests = 5):
     """Download the meteorological files from PVGIS for all the grid tiles centers and average them : an weighted average of the meteorological files from the studied tile and the 12 closest tiles is made. 

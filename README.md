@@ -10,6 +10,7 @@
 It is based on the `SEBE` algorithm from `UMEP`. 
 This tool facilitates simulation over large scale by gathering and consolidating all the pre-processing and post-processing tasks. Additionaly, the tool was developped with the goal of being suitable for mountainous territories by considering local and far masks. 
 `toscana` has been developped to be compatible with open-access databases for the French territory, but can be adapated for other databases (after adjusting them to the required format).
+The installation procedure for `toscana` is detailed in the [Installation](#installation) subsection and should be followed precisely.
 
 
 ## Example 
@@ -103,6 +104,8 @@ Installation is a 2 steps process:
 
 1. Creation of the conda environment
 2. Installation of `toscana`
+
+The package has been tested on Linux and Windows, and is normally compatible OS X. 
 
 ### Environment set up
 

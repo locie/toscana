@@ -127,5 +127,7 @@ def obtain_grid(path_shapefiles, projection = "IGNF:ETRS89LAEA", horizontal_spac
     path_municipality_grid = path_shapefiles / "municipality_grid.shp"
     grid_gpd = define_grid(extent_points, path_municipality_grid,projection=projection, horizontal_spacing=horizontal_spacing, vertical_spacing=vertical_spacing)
 
+    print("Obtention of the grid completed.")
+
     return grid_gpd
 

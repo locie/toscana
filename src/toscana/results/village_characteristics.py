@@ -227,6 +227,8 @@ def calculate_village_characteristics(path_shapefiles, path_csv_folder, path_rep
     df_centroid =  create_csv_coordinates(path_centroid_municipality, path_centroid_municipality_coordinates, path_centroid_municipality_csv)
     latitude_center = df_centroid.loc[0, "latitude"]
     longitude_center = df_centroid.loc[0, "longitude"]
+
+    print("Calculation of the village characteristics completed.")
     return area, perimeter, mean_altitude, latitude_center, longitude_center, population
 
 """ CALCULATION OF SVI AND DFI """
@@ -346,10 +348,13 @@ def calculate_SVI(path_buildings_buffer_zonal_stat_post_process, path_shapefiles
     df_centroid_buildings_no_error = df_centroid_buildings[df_centroid_buildings['error']==""]
     try : 
         SVI = mean(df_centroid_buildings_no_error['mask'])
+        print("Calculation SVI completed.")
         return SVI
     except KeyError as e : 
         if "mask" in str(e):
             print("It is possible that the distance of the buffer is too high, no buildings left, SVI can not be calculated.")
+
+    
 
 def calculate_DFI(grid_gpd, path_average_folder, fn_average_files, path_csv_folder): 
     """Calculate the Diffuse Fraction Index (DFI).
@@ -398,6 +403,7 @@ def calculate_DFI(grid_gpd, path_average_folder, fn_average_files, path_csv_fold
             dhi_index_grid = (somme_dhi_grid/somme_ghi_grid)
             dhi_index_village += dhi_index_grid
     DFI = dhi_index_village/(len(grid_gpd)-len(list_incorrect_tiles))
+    print("Calculation DFI completed.")
     return DFI
 
 
@@ -530,6 +536,7 @@ def calculate_village_distribution_characteristics(path_csv_folder, path_raster_
     # print(df_1.equals(df)) ## to remove
     path_distribution_characteristics = path_final_output_folder / "municipality_and_solar_distribution_characteristics.csv"
     df.to_csv(str(path_distribution_characteristics))
-    return df
+    print("Calculation municipal solar distribution characteristics completed.")
 
+    return df
 

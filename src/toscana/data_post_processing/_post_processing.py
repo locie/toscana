@@ -118,8 +118,12 @@ def merge_SEBE_raster(grid_gdp, path_merge_SEBE_raster, path_final_output_folder
             else : 
                 print(f"The tile n°{j} has not been simulated. The irradiation map of this tile is not added to the merge irradiation map.")
     merge_raster(list_SEBE_raster, path_merge_SEBE_raster)
-    has_negative_value = _verify_SEBE_results(path_merge_SEBE_raster, average = average, bool_global= bool_global)
+    print("Merge irradiation rasters completed.")
 
+    has_negative_value = _verify_SEBE_results(path_merge_SEBE_raster, average = average, bool_global= bool_global)
+    print("Verification of irradiation rasters completed.")
+
+    
 def create_buffer(path_buildings, path_buildings_buffer, distance = -1.5): 
     """Create a (negative) buffer for building footprints (towards the center).
 
@@ -258,10 +262,14 @@ def post_process(path_final_output_folder, grid_gpd, path_shapefiles, path_csv_f
     merge_SEBE_raster(grid_gpd, path_merge_SEBE_raster, path_final_output_folder, path_csv_folder, average = average, bool_global=bool_global)
     path_clip_raster_municipality = path_final_output_folder / "merge_annual_solar_energy_clip_municipality_extent.tif"
     clip_raster(path_reproject_municipality_footprint, path_merge_SEBE_raster, path_clip_raster_municipality)
+    print("Clip irradiation raster at the municipality extent completed.")
     path_buffer_buildings = path_shapefiles / "buffer_buildings.shp"
     create_buffer(path_municipality_buildings_reproject_valid_sup_0, path_buffer_buildings, distance=distance)
+    print("Creation of buffer for buildings completed.")
     path_buffer_buildings_zonal_stats = path_shapefiles / "buffer_buildings_zonal_stats_solar.shp"
     solar_prefix = zonal_statistics(path_buffer_buildings, path_merge_SEBE_raster, path_buffer_buildings_zonal_stats, column_prefix = column_prefix, bool_count = bool_count, bool_sum = bool_sum, bool_mean = bool_mean)
     path_buildings_buffer_zonal_stat_post_process = path_final_output_folder / "buildings_zonal_stats_solar.shp"
     _post_process_buffer_zonal_stat(path_buffer_buildings_zonal_stats, path_buildings_buffer_zonal_stat_post_process, column_prefix = solar_prefix , statistics = statistics)
+
+    print("Calculation of irradiation statistics per building completed.")
 

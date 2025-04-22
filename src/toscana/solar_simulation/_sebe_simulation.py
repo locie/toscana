@@ -302,6 +302,7 @@ def iterate_on_grid(grid_gpd, path_final_output_folder, path_clip_files, path_ra
         path_list_tiles = path_csv_folder / "list_incorrect_tiles.csv"
         df_list_tiles.to_csv(str(path_list_tiles), index=False)
 
+    print("Solar simulations completed.")
 
 def launch_iterate_on_grid_per_month(grid_gpd,list_month, path_final_output_folder,path_clip_files,path_raster_files,path_meteorological_folder, path_csv_folder, wall_limit=0.1, bool_global=True, utc=1, bool_save_sky_irradiance=True,restart_tile=1, average=True, list_albedo_month=[], albedo_m=0.15):
     """Function used to iterate on the grid for several months. 
@@ -384,6 +385,6 @@ def launch_iterate_on_grid_per_month(grid_gpd,list_month, path_final_output_fold
 
         iterate_on_grid(grid_gpd=grid_gpd, path_final_output_folder = path_monthly_results, path_clip_files=path_clip_files, path_raster_files=path_raster_files, path_meteorological_folder=path_meteorological_folder, path_csv_folder=path_month_csv, path_meteorological_subfolder=path_meteorological_subfolder , wall_limit=wall_limit, bool_global = bool_global, utc= utc, bool_save_sky_irradiance=bool_save_sky_irradiance, albedo=albedo, average=average)
 
-
+    print("Solar simulations per month completed.")
 
 
